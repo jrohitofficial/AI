@@ -6,7 +6,7 @@ export const clients = [
         sector: 'Trading & Distribution',
         status: 'ACTIVE',
         progress: 75,
-        icon: '🏪'
+        icon: '/img/store-icon.svg'
     },
     {
         id: 2,
@@ -15,7 +15,7 @@ export const clients = [
         sector: 'Energy & Utilities',
         status: 'IN PLANNING',
         progress: 20,
-        icon: '⚡'
+        icon: '/img/lightning-icon.svg'
     },
     {
         id: 3,
@@ -24,6 +24,6 @@ export const clients = [
         sector: 'Manufacturing',
         status: 'COMPLETED',
         progress: 100,
-        icon: '🏭'
+        icon: '/img/factory-icon.svg'
     }
 ];

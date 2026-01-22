@@ -2,10 +2,10 @@ import React from 'react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const AppShell = ({ children }) => (
-    <div className="app-shell">
-        <Navbar />
-        <main className="app-main">{children}</main>
+const AppShell = ({ children, user }) => (
+    <div className="app-shell flex flex-col min-h-screen">
+        <Navbar user={user} />
+        <main className="app-main flex-1">{children}</main>
         <Footer />
     </div>
 );

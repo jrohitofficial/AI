@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../layout/Navbar';
 import SidePanel from '../layout/SidePanel';
 import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
@@ -16,12 +17,14 @@ const Dashboard = ({ user }) => {
     ];
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
-            <SidePanel user={user} activeItem="Client Portfolio" />
-            
-            <div className="flex-1 ml-64">
-                {/* Main Content */}
-                <main className="p-8">
+        <div className="flex flex-col min-h-screen bg-gray-50">
+            <div className="flex flex-1">
+                <SidePanel user={user} activeItem="Client Portfolio" />
+                
+                <div className="flex-1 ml-64 flex flex-col">
+                    <Navbar user={user} />
+                    {/* Main Content */}
+                    <main className="p-8">
                     {/* Page Title */}
                     <div className="mb-6">
                         <div className="flex items-center justify-between mb-2">
@@ -142,6 +145,7 @@ const Dashboard = ({ user }) => {
                         </div>
                     </div>
                 </main>
+            </div>
             </div>
         </div>
     );

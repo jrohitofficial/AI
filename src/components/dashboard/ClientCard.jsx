@@ -20,8 +20,8 @@ const ClientCard = ({ client }) => {
                 <div className="flex items-center gap-3">
                     <div className={`${client.status === 'ACTIVE' ? 'bg-blue-100 text-blue-600' : 
                                       client.status === 'IN PLANNING' ? 'bg-orange-100 text-orange-600' : 
-                                      'bg-green-100 text-green-600'} p-3 rounded-lg`}>
-                        {client.icon}
+                                      'bg-green-100 text-green-600'} p-3 rounded-lg flex items-center justify-center`}>
+                        <img src={client.icon} alt={client.name} className="w-6 h-6" />
                     </div>
                 </div>
                 <span className={`text-xs font-semibold px-3 py-1 rounded-full ${statusColors[client.status]}`}>

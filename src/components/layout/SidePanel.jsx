@@ -32,7 +32,7 @@ const SidePanel = ({ activeItem = 'Client Portfolio', user }) => {
     ];
 
     return (
-        <div className="w-64 bg-[#1565C0] h-screen flex flex-col fixed left-0 top-0 text-white shadow-xl">
+        <div className="w-64 bg-[#1565C0] h-screen flex flex-col fixed left-0 top-0 text-white shadow-xl z-50">
             {/* Header */}
             <div className="p-6 border-b border-white/10">
                 <div className="flex items-center justify-center">
