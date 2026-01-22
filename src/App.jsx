@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Login from './components/auth/Login';
-import Dashboard from './components/dashboard/Dashboard';
+import { LoginPage, DashboardPage } from './pages';
 import './styles/global.css';
 
 const App = () => {
@@ -17,9 +16,9 @@ const App = () => {
     return (
         <>
             {!user ? (
-                <Login onLogin={handleLogin} />
+                <LoginPage onLogin={handleLogin} />
             ) : (
-                <Dashboard user={user} onLogout={handleLogout} />
+                <DashboardPage user={user} onLogout={handleLogout} />
             )}
         </>
     );

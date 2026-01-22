@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Navbar from '../layout/Navbar';
-import SidePanel from '../layout/SidePanel';
+import Navbar from '../../components/layout/Navbar';
+import SidePanel from '../../components/layout/SidePanel';
 import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
 import { clients } from '../../data/clients';
 
-const Dashboard = ({ user }) => {
+const DashboardPage = ({ user }) => {
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);
 
@@ -151,4 +151,4 @@ const Dashboard = ({ user }) => {
     );
 };
 
-export default Dashboard;
+export default DashboardPage;
