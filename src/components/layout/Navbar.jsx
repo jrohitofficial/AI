@@ -1,7 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, onLogout }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const menuRef = useRef(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShowProfileMenu(false);
+            }
+        };
+
+        if (showProfileMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showProfileMenu]);
+
+    const handleLogout = () => {
+        setShowProfileMenu(false);
+        if (onLogout) {
+            onLogout();
+        }
+    };
 
     return (
         <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
@@ -32,11 +58,41 @@ const Navbar = ({ user }) => {
                         <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
 
-                    {/* User Profile Avatar */}
-                    <div className="flex items-center gap-3 pl-6 border-l border-gray-200">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold cursor-pointer hover:shadow-md transition-shadow">
+                    {/* User Profile Avatar with Dropdown */}
+                    <div className="flex items-center gap-3 pl-6 border-l border-gray-200 relative" ref={menuRef}>
+                        <button
+                            onClick={() => setShowProfileMenu(!showProfileMenu)}
+                            className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold cursor-pointer hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            title="Profile"
+                        >
                             {user?.initial || user?.name?.[0]?.toUpperCase() || 'A'}
-                        </div>
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {showProfileMenu && (
+                            <div className="absolute right-0 top-12 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                                {/* User Info */}
+                                <div className="px-4 py-3 border-b border-gray-100">
+                                    <p className="text-sm font-semibold text-gray-900">
+                                        {user?.name || 'User'}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-1">
+                                        {user?.email || 'user@example.com'}
+                                    </p>
+                                </div>
+
+                                {/* Logout Button */}
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

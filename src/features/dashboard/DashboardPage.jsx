@@ -5,7 +5,7 @@ import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
 import { clients } from '../../data/clients';
 
-const DashboardPage = ({ user }) => {
+const DashboardPage = ({ user, onLogout }) => {
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);
 
@@ -22,7 +22,7 @@ const DashboardPage = ({ user }) => {
                 <SidePanel user={user} activeItem="Client Portfolio" />
                 
                 <div className="flex-1 ml-64 flex flex-col">
-                    <Navbar user={user} />
+                    <Navbar user={user} onLogout={onLogout} />
                     {/* Main Content */}
                     <main className="p-8">
                     {/* Page Title */}
