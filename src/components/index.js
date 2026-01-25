@@ -16,3 +16,7 @@ export { default as Input } from './ui/Input';
 export { default as ProgressBar } from './ui/ProgressBar';
 export { default as Section } from './ui/Section';
 export { default as AvatarList } from './ui/AvatarList';
+export { default as Modal } from './ui/Modal';
+export { default as ScrollIndicator } from './ui/ScrollIndicator';
+
+

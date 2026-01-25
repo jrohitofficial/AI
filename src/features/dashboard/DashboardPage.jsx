@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import SidePanel from '../../components/layout/SidePanel';
 import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
-import { clients } from '../../data/clients';
+import AddClientModal from './AddClientModal';
+import { ScrollIndicator } from '../../components';
+import { clients as initialClients } from '../../data/clients';
 
 const DashboardPage = ({ user, onLogout }) => {
+    const [clients, setClients] = useState(initialClients);
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);
+    const [showAddClientModal, setShowAddClientModal] = useState(false);
+    const mainContentRef = useRef(null);
 
     const metrics = [
-        { title: 'Active Audit Clients', value: 48, trend: '+3 This Month', trendColor: 'text-green-600' },
+        { title: 'Active Audit Clients', value: clients.length, trend: '+3 This Month', trendColor: 'text-green-600' },
         { title: 'Pending Submission', value: 12, subtitle: 'Requires Attention', subtitleColor: 'text-red-600' },
         { title: 'Days to IRD Deadlines', value: 5, badge: 'Urgent', badgeColor: 'bg-orange-100 text-orange-600' },
         { title: 'Completed', value: 28, subtitle: 'Fiscal Year 2081/2082' },
     ];
 
+    const handleAddClient = (newClient) => {
+        setClients([...clients, newClient]);
+        setShowAddClientModal(false);
+    };
+
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
-            <div className="flex flex-1">
+        <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
+            <div className="flex flex-1 overflow-hidden">
                 <SidePanel user={user} activeItem="Client Portfolio" />
                 
-                <div className="flex-1 ml-64 flex flex-col">
+                <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">
                     <Navbar user={user} onLogout={onLogout} />
                     {/* Main Content */}
-                    <main className="p-8">
+                    <main ref={mainContentRef} className="p-8 overflow-y-auto hide-scrollbar flex-1">
                     {/* Page Title */}
                     <div className="mb-6">
                         <div className="flex items-center justify-between mb-2">
@@ -60,7 +70,10 @@ const DashboardPage = ({ user, onLogout }) => {
                                         </div>
                                     )}
                                 </div>
-                                <button className="px-4 py-2 bg-[#1976D2] text-white rounded-lg hover:bg-[#1565C0] flex items-center gap-2 font-medium text-sm">
+                                <button 
+                                    onClick={() => setShowAddClientModal(true)}
+                                    className="px-4 py-2 bg-[#1976D2] text-white rounded-lg hover:bg-[#1565C0] flex items-center gap-2 font-medium text-sm"
+                                >
                                     <span>+</span> New Client
                                 </button>
                             </div>
@@ -115,7 +128,10 @@ const DashboardPage = ({ user, onLogout }) => {
                         ))}
 
                         {/* Add New Client Card */}
-                        <div className="bg-white rounded-lg p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center hover:border-gray-400 hover:bg-gray-50 transition-colors cursor-pointer min-h-[300px]">
+                        <button
+                            onClick={() => setShowAddClientModal(true)}
+                            className="bg-white rounded-lg p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center hover:border-gray-400 hover:bg-gray-50 transition-colors cursor-pointer min-h-[300px]"
+                        >
                             <div className="text-gray-300 mb-4">
                                 <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -125,15 +141,23 @@ const DashboardPage = ({ user, onLogout }) => {
                             <p className="text-sm text-gray-500 text-center mb-4">
                                 Onboard a new client for the current fiscal<br/>year cycle.
                             </p>
-                            <button className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium text-sm">
+                            <span className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium text-sm">
                                 Start Onboarding
-                            </button>
-                        </div>
+                            </span>
+                        </button>
                     </div>
+
+                    {/* Add Client Modal */}
+                    <AddClientModal 
+                        isOpen={showAddClientModal}
+                        onClose={() => setShowAddClientModal(false)}
+                        onAddClient={handleAddClient}
+                        variant="drawer"
+                    />
 
                     {/* Footer Stats */}
                     <div className="mt-8 flex items-center justify-between text-sm text-gray-500">
-                        <div>Total Active Clients: <span className="font-semibold text-gray-700">3</span></div>
+                        <div>Total Active Clients: <span className="font-semibold text-gray-700">{clients.length}</span></div>
                         <div className="flex items-center gap-4">
                             <div>Avg. Completion: <span className="font-semibold text-gray-700">65%</span></div>
                             <button className="text-blue-600 hover:underline flex items-center gap-1">
@@ -145,6 +169,9 @@ const DashboardPage = ({ user, onLogout }) => {
                         </div>
                     </div>
                 </main>
+                
+                {/* Scroll Indicator */}
+                <ScrollIndicator targetRef={mainContentRef} />
             </div>
             </div>
         </div>
