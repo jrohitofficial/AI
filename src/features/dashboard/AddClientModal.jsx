@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../../components/ui/Modal';
-import ConfirmDialog from '../../components/ui/ConfirmDialog';
-import SuccessNotification from '../../components/ui/SuccessNotification';
+import {
+    Modal,
+    ConfirmDialog,
+    SuccessNotification,
+    FormInput,
+    FormSelect,
+    InfoBanner,
+    Button,
+} from '../../components';
 
 const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) => {
     const [formData, setFormData] = useState({
@@ -134,9 +140,9 @@ const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) =>
             newErrors.contactEmail = 'Invalid email format';
         }
 
-        // Registration Number validation - only numbers
-        if (formData.registeredInPANVAT && formData.registeredInPANVAT.trim() && !/^\d+$/.test(formData.registeredInPANVAT.trim())) {
-            newErrors.registeredInPANVAT = 'Registration should contain only numbers';
+        // Registration Number validation - only numbers (optional but numeric)
+        if (formData.registrationNumber && formData.registrationNumber.trim() && !/^\d+$/.test(formData.registrationNumber.trim())) {
+            newErrors.registrationNumber = 'Registration should contain only numbers';
         }
 
         setErrors(newErrors);
@@ -212,19 +218,11 @@ const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) =>
     return (
         <>
             <Modal isOpen={isOpen} onClose={handleCancel} title="AI Auto-Fill" variant={variant}>
-                <div className="mb-4 p-[2px] rounded-lg animate-gradient-border">
-                    <div className="p-3 rounded-lg bg-white backdrop-blur-sm shadow-sm">
-                        <div className="flex items-start gap-2">
-                            {/* AI Icon */}
-                            <div className="flex-shrink-0">
-                                <img src="/icon/ri_ai.png" alt="AI" className="w-4 h-4" />
-                            </div>
-                            <p className="text-xs text-gray-600">
-                                Enter PAN number and I will try to fetch Company details from the IRD database
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <InfoBanner
+                    icon="/icon/ri_ai.png"
+                    text="Enter PAN number and I will try to fetch Company details from the IRD database"
+                    className="mb-4"
+                />
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                 {/* COMPANY DETAILS Section */}
@@ -232,168 +230,85 @@ const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) =>
                     <h3 className="text-sm font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">COMPANY DETAILS</h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* PAN Number */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                PAN Number
-                            </label>
-                            <input
-                                type="text"
-                                name="panNumber"
-                                value={formData.panNumber}
-                                onChange={handleChange}
-                                placeholder="eg. 1073000038"
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    errors.panNumber ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.panNumber && (
-                                <p className="text-red-500 text-xs mt-1">{errors.panNumber}</p>
-                            )}
-                        </div>
+                        <FormInput
+                            label="PAN Number"
+                            name="panNumber"
+                            value={formData.panNumber}
+                            onChange={handleChange}
+                            placeholder="eg. 1073000038"
+                            error={errors.panNumber}
+                            inputMode="numeric"
+                        />
 
-                        {/* Registration Number */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Registration Number
-                            </label>
-                            <input
-                                type="text"
-                                name="registrationNumber"
-                                value={formData.registrationNumber}
-                                onChange={handleChange}
-                                placeholder="Company Registration number"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
+                        <FormInput
+                            label="Registration Number"
+                            name="registrationNumber"
+                            value={formData.registrationNumber}
+                            onChange={handleChange}
+                            placeholder="Company Registration number"
+                            error={errors.registrationNumber}
+                            inputMode="numeric"
+                        />
                     </div>
 
                     {/* Company Name */}
                     <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Company Name
-                        </label>
-                        <input
-                            type="text"
+                        <FormInput
+                            label="Company Name"
                             name="companyName"
                             value={formData.companyName}
                             onChange={handleChange}
                             placeholder="Full company name"
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.companyName ? 'border-red-500' : 'border-gray-300'
-                            }`}
+                            error={errors.companyName}
                         />
-                        {errors.companyName && (
-                            <p className="text-red-500 text-xs mt-1">{errors.companyName}</p>
-                        )}
                     </div>
 
                     {/* Industry Type and Fiscal Year */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Industry Type
-                            </label>
-                            <select
-                                name="industryType"
-                                value={formData.industryType}
-                                onChange={handleChange}
-                                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 appearance-none cursor-pointer transition-colors hover:bg-gray-50 ${
-                                    errors.industryType ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                                style={{
-                                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'right 0.75rem center',
-                                    backgroundSize: '1.25rem',
-                                    paddingRight: '2.5rem'
-                                }}
-                            >
-                                <option value="">Select Industry Type</option>
-                                {industriesOptions.map(industry => (
-                                    <option key={industry} value={industry}>
-                                        {industry}
-                                    </option>
-                                ))}
-                            </select>
-                            {errors.industryType && (
-                                <p className="text-red-500 text-xs mt-1">{errors.industryType}</p>
-                            )}
-                        </div>
+                        <FormSelect
+                            label="Industry Type"
+                            name="industryType"
+                            value={formData.industryType}
+                            onChange={handleChange}
+                            options={industriesOptions}
+                            placeholder="Select Industry Type"
+                            error={errors.industryType}
+                        />
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Fiscal Year
-                            </label>
-                            <select
-                                name="fiscalYear"
-                                value={formData.fiscalYear}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 appearance-none cursor-pointer transition-colors hover:bg-gray-50"
-                                style={{
-                                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'right 0.75rem center',
-                                    backgroundSize: '1.25rem',
-                                    paddingRight: '2.5rem'
-                                }}
-                            >
-                                <option value="FY 2080/81">FY 2080/81</option>
-                                <option value="FY 2081/82">FY 2081/82</option>
-                                <option value="FY 2082/83">FY 2082/83</option>
-                            </select>
-                        </div>
+                        <FormSelect
+                            label="Fiscal Year"
+                            name="fiscalYear"
+                            value={formData.fiscalYear}
+                            onChange={handleChange}
+                            options={[
+                                { label: 'FY 2080/81', value: 'FY 2080/81' },
+                                { label: 'FY 2081/82', value: 'FY 2081/82' },
+                                { label: 'FY 2082/83', value: 'FY 2082/83' },
+                            ]}
+                        />
                     </div>
 
                     {/* Business Structure and Registered in PAN/VAT */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Business Structure
-                            </label>
-                            <select
-                                name="businessStructure"
-                                value={formData.businessStructure}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 appearance-none cursor-pointer transition-colors hover:bg-gray-50"
-                                style={{
-                                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'right 0.75rem center',
-                                    backgroundSize: '1.25rem',
-                                    paddingRight: '2.5rem'
-                                }}
-                            >
-                                {businessStructures.map(structure => (
-                                    <option key={structure} value={structure}>
-                                        {structure}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        <FormSelect
+                            label="Business Structure"
+                            name="businessStructure"
+                            value={formData.businessStructure}
+                            onChange={handleChange}
+                            options={businessStructures}
+                        />
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Registered in PAN/VAT
-                            </label>
-                            <select
-                                name="registeredInPANVAT"
-                                value={formData.registeredInPANVAT}
-                                onChange={handleChange}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 appearance-none cursor-pointer transition-colors hover:bg-gray-50"
-                                style={{
-                                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'right 0.75rem center',
-                                    backgroundSize: '1.25rem',
-                                    paddingRight: '2.5rem'
-                                }}
-                            >
-                                <option value="PAN">PAN</option>
-                                <option value="VAT">VAT</option>
-                                <option value="Both">Both</option>
-                            </select>
-                        </div>
+                        <FormSelect
+                            label="Registered in PAN/VAT"
+                            name="registeredInPANVAT"
+                            value={formData.registeredInPANVAT}
+                            onChange={handleChange}
+                            options={[
+                                { label: 'PAN', value: 'PAN' },
+                                { label: 'VAT', value: 'VAT' },
+                                { label: 'Both', value: 'Both' },
+                            ]}
+                        />
                     </div>
                 </div>
 
@@ -429,64 +344,47 @@ const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) =>
                     <h3 className="text-sm font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">PRIMARY CONTACT</h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Person
-                            </label>
-                            <input
-                                type="text"
-                                name="contactPerson"
-                                value={formData.contactPerson}
-                                onChange={handleChange}
-                                placeholder="Full name"
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    errors.contactPerson ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.contactPerson && (
-                                <p className="text-red-500 text-xs mt-1">{errors.contactPerson}</p>
-                            )}
-                        </div>
+                        <FormInput
+                            label="Contact Person"
+                            name="contactPerson"
+                            value={formData.contactPerson}
+                            onChange={handleChange}
+                            placeholder="Full name"
+                            error={errors.contactPerson}
+                        />
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Contact Email
-                            </label>
-                            <input
-                                type="email"
-                                name="contactEmail"
-                                value={formData.contactEmail}
-                                onChange={handleChange}
-                                placeholder="email@company.com"
-                                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                    errors.contactEmail ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.contactEmail && (
-                                <p className="text-red-500 text-xs mt-1">{errors.contactEmail}</p>
-                            )}
-                        </div>
+                        <FormInput
+                            label="Contact Email"
+                            name="contactEmail"
+                            type="email"
+                            value={formData.contactEmail}
+                            onChange={handleChange}
+                            placeholder="email@company.com"
+                            error={errors.contactEmail}
+                        />
                     </div>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 justify-end pt-6 border-t border-gray-200">
-                    <button
+                    <Button
                         type="button"
+                        variant="secondary"
                         onClick={handleCancel}
-                        className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                        className="px-6"
                     >
                         Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         type="submit"
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
+                        variant="primary"
+                        className="px-6"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         Create Client
-                    </button>
+                    </Button>
                 </div>
             </form>
             </Modal>

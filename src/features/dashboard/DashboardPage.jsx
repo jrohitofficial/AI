@@ -4,7 +4,7 @@ import SidePanel from '../../components/layout/SidePanel';
 import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
 import AddClientModal from './AddClientModal';
-import { ScrollIndicator } from '../../components';
+import { ScrollIndicator, Button } from '../../components';
 import { clients as initialClients } from '../../data/clients';
 
 const DashboardPage = ({ user, onLogout }) => {
@@ -44,15 +44,17 @@ const DashboardPage = ({ user, onLogout }) => {
                             </div>
                             <div className="flex gap-3">
                                 <div className="relative">
-                                    <button 
+                                    <Button
+                                        type="button"
+                                        variant="secondary"
+                                        className="px-4 py-2 font-medium text-sm"
                                         onClick={() => setShowExportMenu(!showExportMenu)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2 font-medium text-sm"
                                     >
                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
                                         </svg>
                                         Export Report
-                                    </button>
+                                    </Button>
                                     {showExportMenu && (
                                         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10">
                                             <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 text-sm">
@@ -70,12 +72,14 @@ const DashboardPage = ({ user, onLogout }) => {
                                         </div>
                                     )}
                                 </div>
-                                <button 
+                                <Button
+                                    type="button"
+                                    variant="primary"
+                                    className="px-4 py-2 font-medium text-sm"
                                     onClick={() => setShowAddClientModal(true)}
-                                    className="px-4 py-2 bg-[#1976D2] text-white rounded-lg hover:bg-[#1565C0] flex items-center gap-2 font-medium text-sm"
                                 >
-                                    <span>+</span> New Client
-                                </button>
+                                    <span className="text-lg leading-none">+</span> New Client
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -128,9 +132,10 @@ const DashboardPage = ({ user, onLogout }) => {
                         ))}
 
                         {/* Add New Client Card */}
-                        <button
+                        <Button
+                            type="button"
                             onClick={() => setShowAddClientModal(true)}
-                            className="bg-white rounded-lg p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center hover:border-gray-400 hover:bg-gray-50 transition-colors cursor-pointer min-h-[300px]"
+                            className="bg-white rounded-lg p-6 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center hover:border-gray-400 hover:bg-gray-50 transition-colors cursor-pointer min-h-[300px] text-center"
                         >
                             <div className="text-gray-300 mb-4">
                                 <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,7 +149,7 @@ const DashboardPage = ({ user, onLogout }) => {
                             <span className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 font-medium text-sm">
                                 Start Onboarding
                             </span>
-                        </button>
+                        </Button>
                     </div>
 
                     {/* Add Client Modal */}
