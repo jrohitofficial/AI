@@ -59,13 +59,15 @@ const Navbar = ({ user, onLogout }) => {
                     </button>
 
                     {/* User Profile Avatar with Dropdown */}
-                    <div className="flex items-center gap-3 pl-6 border-l border-gray-200 relative" ref={menuRef}>
+                    <div className="flex items-center gap-2 pl-6 border-l border-gray-200 relative" ref={menuRef}>
                         <button
                             onClick={() => setShowProfileMenu(!showProfileMenu)}
-                            className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold cursor-pointer hover:shadow-md transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            className="cursor-pointer focus:outline-none"
                             title="Profile"
                         >
-                            {user?.initial || user?.name?.[0]?.toUpperCase() || 'A'}
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold hover:shadow-md transition-shadow focus:ring-2 focus:ring-blue-300">
+                                {user?.initial || user?.name?.[0]?.toUpperCase() || 'A'}
+                            </div>
                         </button>
 
                         {/* Dropdown Menu */}

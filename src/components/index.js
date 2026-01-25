@@ -18,5 +18,7 @@ export { default as Section } from './ui/Section';
 export { default as AvatarList } from './ui/AvatarList';
 export { default as Modal } from './ui/Modal';
 export { default as ScrollIndicator } from './ui/ScrollIndicator';
+export { default as ConfirmDialog } from './ui/ConfirmDialog';
+export { default as SuccessNotification } from './ui/SuccessNotification';
 
 
