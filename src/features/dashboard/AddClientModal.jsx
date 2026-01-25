@@ -217,7 +217,7 @@ const AddClientModal = ({ isOpen, onClose, onAddClient, variant = 'drawer' }) =>
 
     return (
         <>
-            <Modal isOpen={isOpen} onClose={handleCancel} title="AI Auto-Fill" variant={variant}>
+            <Modal isOpen={isOpen} onClose={handleCancel} title={<span className="animate-gradient-text">AI Auto-Fill</span>} variant={variant}>
                 <InfoBanner
                     icon="/icon/ri_ai.png"
                     text="Enter PAN number and I will try to fetch Company details from the IRD database"

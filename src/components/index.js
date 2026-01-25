@@ -23,5 +23,6 @@ export { default as SuccessNotification } from './ui/SuccessNotification';
 export { default as FormInput } from './ui/FormInput';
 export { default as FormSelect } from './ui/FormSelect';
 export { default as InfoBanner } from './ui/InfoBanner';
+export { default as ExportMenu } from './ui/ExportMenu';
 
 

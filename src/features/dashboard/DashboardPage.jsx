@@ -4,7 +4,7 @@ import SidePanel from '../../components/layout/SidePanel';
 import MetricCard from './MetricCard';
 import ClientCard from './ClientCard';
 import AddClientModal from './AddClientModal';
-import { ScrollIndicator, Button } from '../../components';
+import { ScrollIndicator, Button, ExportMenu } from '../../components';
 import { clients as initialClients } from '../../data/clients';
 
 const DashboardPage = ({ user, onLogout }) => {
@@ -12,13 +12,44 @@ const DashboardPage = ({ user, onLogout }) => {
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);
     const [showAddClientModal, setShowAddClientModal] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const mainContentRef = useRef(null);
 
+    // Filter clients based on search query
+    const filteredClients = clients.filter(client => {
+        if (!searchQuery.trim()) return true;
+        const query = searchQuery.toLowerCase();
+        return (
+            client.name.toLowerCase().includes(query) ||
+            client.pan.toLowerCase().includes(query) ||
+            client.sector.toLowerCase().includes(query)
+        );
+    });
+
     const metrics = [
-        { title: 'Active Audit Clients', value: clients.length, trend: '+3 This Month', trendColor: 'text-green-600' },
-        { title: 'Pending Submission', value: 12, subtitle: 'Requires Attention', subtitleColor: 'text-red-600' },
-        { title: 'Days to IRD Deadlines', value: 5, badge: 'Urgent', badgeColor: 'bg-orange-100 text-orange-600' },
-        { title: 'Completed', value: 28, subtitle: 'Fiscal Year 2081/2082' },
+        { 
+            title: 'Active Audit Clients', 
+            value: filteredClients.length, 
+            trend: '+3 This Month'
+        },
+        { 
+            title: 'Pending Submission', 
+            value: 12, 
+            subtitle: 'Requires Attention', 
+            subtitleColor: 'text-rose-600'
+        },
+        { 
+            title: 'Days to IRD Deadlines', 
+            value: 5, 
+            badge: 'Urgent', 
+            badgeColor: 'bg-orange-50 text-orange-700 border-orange-200'
+        },
+        { 
+            title: 'Completed', 
+            value: 28, 
+            subtitle: 'Fiscal Year 2081/2082',
+            subtitleColor: 'text-blue-600'
+        },
     ];
 
     const handleAddClient = (newClient) => {
@@ -32,7 +63,7 @@ const DashboardPage = ({ user, onLogout }) => {
                 <SidePanel user={user} activeItem="Client Portfolio" />
                 
                 <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">
-                    <Navbar user={user} onLogout={onLogout} />
+                    <Navbar user={user} onLogout={onLogout} searchQuery={searchQuery} onSearchChange={setSearchQuery} clients={clients} />
                     {/* Main Content */}
                     <main ref={mainContentRef} className="p-8 overflow-y-auto hide-scrollbar flex-1">
                     {/* Page Title */}
@@ -55,22 +86,7 @@ const DashboardPage = ({ user, onLogout }) => {
                                         </svg>
                                         Export Report
                                     </Button>
-                                    {showExportMenu && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-10">
-                                            <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                </svg>
-                                                Export in Excel
-                                            </button>
-                                            <button className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                                </svg>
-                                                Export in PDF
-                                            </button>
-                                        </div>
-                                    )}
+                                    <ExportMenu isOpen={showExportMenu} onClose={() => setShowExportMenu(false)} />
                                 </div>
                                 <Button
                                     type="button"
@@ -127,7 +143,7 @@ const DashboardPage = ({ user, onLogout }) => {
 
                     {/* Client Cards Grid */}
                     <div className="grid grid-cols-3 gap-6">
-                        {clients.map((client) => (
+                        {filteredClients.map((client) => (
                             <ClientCard key={client.id} client={client} />
                         ))}
 
@@ -162,7 +178,7 @@ const DashboardPage = ({ user, onLogout }) => {
 
                     {/* Footer Stats */}
                     <div className="mt-8 flex items-center justify-between text-sm text-gray-500">
-                        <div>Total Active Clients: <span className="font-semibold text-gray-700">{clients.length}</span></div>
+                        <div>Total Active Clients: <span className="font-semibold text-gray-700">{filteredClients.length}</span>{searchQuery && <span className="text-xs ml-2 text-gray-500">(of {clients.length})</span>}</div>
                         <div className="flex items-center gap-4">
                             <div>Avg. Completion: <span className="font-semibold text-gray-700">65%</span></div>
                             <button className="text-blue-600 hover:underline flex items-center gap-1">
