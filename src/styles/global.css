@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './loader.css';
-
 .wave-path {
     stroke-dasharray: 2400;
     animation: waveFlow 14s linear infinite;
