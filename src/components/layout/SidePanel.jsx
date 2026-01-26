@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SidePanel = ({ activeItem = 'Client Portfolio', user }) => {
+const SidePanel = ({ activeItem = 'Client Portfolio', user, onNavigateToEngagements }) => {
     const menuItems = [
         { 
             id: 1, 
@@ -49,6 +49,7 @@ const SidePanel = ({ activeItem = 'Client Portfolio', user }) => {
                 {menuItems.map((item) => (
                     <button
                         key={item.id}
+                        onClick={() => item.name === 'Engagements' && onNavigateToEngagements && onNavigateToEngagements()}
                         className={`w-full px-6 py-3.5 flex items-center gap-3 hover:bg-white/10 transition-all ${
                             activeItem === item.name ? 'bg-white/15' : ''
                         }`}

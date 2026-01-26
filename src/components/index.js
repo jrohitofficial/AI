@@ -7,6 +7,7 @@ export { default as Button } from './common/Button';
 export { default as AppShell } from './layout/AppShell';
 export { default as Navbar } from './layout/Navbar';
 export { default as SidePanel } from './layout/SidePanel';
+export { default as Sidepanel2 } from './layout/Sidepanel2';
 export { default as Footer } from './layout/Footer';
 
 // UI components
@@ -24,5 +25,10 @@ export { default as FormInput } from './ui/FormInput';
 export { default as FormSelect } from './ui/FormSelect';
 export { default as InfoBanner } from './ui/InfoBanner';
 export { default as ExportMenu } from './ui/ExportMenu';
+export { default as MetricCard } from './ui/MetricCard';
+export { default as ChecklistItem } from './ui/ChecklistItem';
+export { default as QuickActionButton } from './ui/QuickActionButton';
+export { default as RecentComment } from './ui/RecentComment';
+export { default as Loader } from './ui/Loader';
 
 

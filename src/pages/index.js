@@ -1,3 +1,4 @@
-// Pages - Centralized exports from features
-export { LoginPage } from '../features/auth';
-export { DashboardPage } from '../features/dashboard';
+// Pages - Centralized exports
+export { default as LoginPage } from '../features/auth/Login';
+export { default as DashboardPage } from '../features/dashboard/DashboardPage';
+export { default as EngagementHubPage } from './engagementhub/EngagementHubPage';

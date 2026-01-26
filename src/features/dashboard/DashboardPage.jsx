@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import SidePanel from '../../components/layout/SidePanel';
-import MetricCard from './MetricCard';
+import MetricCard from '../../components/ui/MetricCard';
 import ClientCard from './ClientCard';
 import AddClientModal from './AddClientModal';
 import { ScrollIndicator, Button, ExportMenu } from '../../components';
 import { clients as initialClients } from '../../data/clients';
 
-const DashboardPage = ({ user, onLogout }) => {
+const DashboardPage = ({ user, onLogout, onNavigateToEngagement }) => {
     const [clients, setClients] = useState(initialClients);
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);
@@ -29,7 +29,7 @@ const DashboardPage = ({ user, onLogout }) => {
     const metrics = [
         { 
             title: 'Active Audit Clients', 
-            value: filteredClients.length, 
+            value: 3, 
             trend: '+3 This Month'
         },
         { 
@@ -41,8 +41,8 @@ const DashboardPage = ({ user, onLogout }) => {
         { 
             title: 'Days to IRD Deadlines', 
             value: 5, 
-            badge: 'Urgent', 
-            badgeColor: 'bg-orange-50 text-orange-700 border-orange-200'
+            badge: 'Urgent',
+            badgeColor: 'bg-orange-50 text-orange-700'
         },
         { 
             title: 'Completed', 
@@ -60,7 +60,7 @@ const DashboardPage = ({ user, onLogout }) => {
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
             <div className="flex flex-1 overflow-hidden">
-                <SidePanel user={user} activeItem="Client Portfolio" />
+                <SidePanel user={user} activeItem="Client Portfolio" onNavigateToEngagements={onNavigateToEngagement} />
                 
                 <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">
                     <Navbar user={user} onLogout={onLogout} searchQuery={searchQuery} onSearchChange={setSearchQuery} clients={clients} />
@@ -144,7 +144,11 @@ const DashboardPage = ({ user, onLogout }) => {
                     {/* Client Cards Grid */}
                     <div className="grid grid-cols-3 gap-6">
                         {filteredClients.map((client) => (
-                            <ClientCard key={client.id} client={client} />
+                            <ClientCard 
+                                key={client.id} 
+                                client={client}
+                                onAction={() => onNavigateToEngagement(client)}
+                            />
                         ))}
 
                         {/* Add New Client Card */}
