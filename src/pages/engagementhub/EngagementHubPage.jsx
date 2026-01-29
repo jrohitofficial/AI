@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Sidepanel2 from '../../components/layout/Sidepanel2';
 import { engagementHubData } from '../../data/engagementHub';
 import { MetricCard, ChecklistItem, QuickActionButton, RecentComment, ScrollIndicator } from '../../components';
+import ActionButton from '../../components/ui/ActionButton';
+import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 
-const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboard }) => {
+const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToVATReconciliation }) => {
     const [selectedChecklist, setSelectedChecklist] = useState(null);
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const [showExitConfirm, setShowExitConfirm] = useState(false);
     const mainContentRef = useRef(null);
     
     // Use selectedClient if available, otherwise use default data
@@ -40,71 +42,37 @@ const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboa
         )
     };
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
-
     const handleQuickAction = (action) => {
         console.log('Quick action clicked:', action);
         // Can be extended to perform actual actions
     };
 
-    const formatTime = (date) => {
-        return date.toLocaleTimeString('en-US', { 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            second: '2-digit',
-            hour12: false 
-        });
+    const handleExitWorkspace = () => {
+        setShowExitConfirm(true);
+    };
+
+    const handleConfirmExit = () => {
+        setShowExitConfirm(false);
+        onNavigateToDashboard();
     };
 
     return (
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
             <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <Sidepanel2 activeItem="Engagement Hub" user={user} onNavigateToDashboard={onNavigateToDashboard} onLogout={onLogout} />
+                <Sidepanel2 activeItem="Engagement Hub" user={user} onNavigateToDashboard={onNavigateToDashboard} onNavigateToVATReconciliation={() => onNavigateToVATReconciliation(selectedClient)} onLogout={onLogout} selectedClient={selectedClient} />
 
                 {/* Main Content */}
                 <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">
                     {/* Header Navbar */}
-                    <div className="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
-                    <div className="px-8 py-4">
-                        <div className="flex items-center justify-between">
-                            {/* Breadcrumb and Client Info */}
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 text-sm">
-                                    <span onClick={onNavigateToDashboard} className="text-gray-600 hover:text-gray-900 cursor-pointer font-['Inter',sans-serif] transition-colors">Clients</span>
-                                    <span className="text-gray-400">›</span>
-                                    <span className="text-gray-900 font-semibold font-['Inter',sans-serif]">{clientData.name}</span>
-                                </div>
-                                <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded font-['Inter',sans-serif]">
-                                    FY 2060/61
-                                </span>
-                            </div>
-
-                            {/* Right Side - Timer and Button */}
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 text-gray-600">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span className="text-sm font-medium font-['Inter',sans-serif]">{formatTime(currentTime)}</span>
-                                </div>
-                                <button
-                                    onClick={onNavigateToDashboard}
-                                    className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded transition-colors flex items-center gap-2 font-['Inter',sans-serif]">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                                    </svg>
-                                    Save &Exit Workplace
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <WorkspaceHeader
+                        clientData={clientData}
+                        onNavigateToDashboard={onNavigateToDashboard}
+                        showExitConfirm={showExitConfirm}
+                        onExitWorkspace={handleExitWorkspace}
+                        onConfirmExit={handleConfirmExit}
+                        onCancelExit={() => setShowExitConfirm(false)}
+                    />
 
                     {/* Main Content Area */}
                     <main ref={mainContentRef} className="p-8 overflow-y-auto hide-scrollbar flex-1">

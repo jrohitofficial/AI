@@ -30,5 +30,7 @@ export { default as ChecklistItem } from './ui/ChecklistItem';
 export { default as QuickActionButton } from './ui/QuickActionButton';
 export { default as RecentComment } from './ui/RecentComment';
 export { default as Loader } from './ui/Loader';
-
-
+export { default as ActionButton } from './ui/ActionButton';
+export { default as ConfirmExitModal } from './ui/ConfirmExitModal';
+export { default as StatusNotification } from './ui/StatusNotification';
+export { default as VATTable } from './ui/VATTable';

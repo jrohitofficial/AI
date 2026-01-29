@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onLogout }) => {
+const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToEngagement, onLogout }) => {
     // SVG Icon components - unique icons for each item
     const iconComponents = {
         clipboard: (
@@ -104,7 +104,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         {
             title: 'SETUP',
             items: [
-            { id: 1, name: 'Engagement Hub', icon: iconComponents.clipboard, isDashboard: false },
+            { id: 1, name: 'Engagement Hub', icon: iconComponents.clipboard, isDashboard: false, isEngagementHub: true },
             { id: 2, name: 'Client Profile', icon: iconComponents.user, isDashboard: false },
             { id: 3, name: 'Letter of Engagement', icon: iconComponents.fileText, isDashboard: false }
             ]
@@ -112,7 +112,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         {
             title: 'TRADING ACCOUNT',
             items: [
-                { id: 4, name: 'Monthly VAT Reconciliation', icon: iconComponents.receipt, isDashboard: false },
+                { id: 4, name: 'Monthly VAT Reconciliation', icon: iconComponents.receipt, isDashboard: false, isVATReconciliation: true },
                 { id: 5, name: 'Gross Revenue', icon: iconComponents.trendingUp, isDashboard: false },
                 { id: 6, name: 'Inventories', icon: iconComponents.package, isDashboard: false },
                 { id: 7, name: 'Ratio Summary & RID Compliance', icon: iconComponents.pieChart, isDashboard: false }
@@ -154,9 +154,13 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         }
     ];
 
-    const handleItemClick = (itemName, isDashboard = false) => {
+    const handleItemClick = (itemName, isDashboard = false, isVATReconciliation = false, isEngagementHub = false) => {
         if (isDashboard && onNavigateToDashboard) {
             onNavigateToDashboard();
+        } else if (isVATReconciliation && onNavigateToVATReconciliation) {
+            onNavigateToVATReconciliation();
+        } else if (isEngagementHub && onNavigateToEngagement) {
+            onNavigateToEngagement();
         }
     };
 
@@ -184,7 +188,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
                             {section.items.map((item) => (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleItemClick(item.name, item.isDashboard)}
+                                    onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub)}
                                     className={`w-full px-6 py-3 flex items-center gap-3 transition-all text-left ${
                                         activeItem === item.name 
                                             ? 'bg-[#1565C0] text-white' 

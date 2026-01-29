@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LoginPage, DashboardPage, EngagementHubPage } from './pages';
+import { LoginPage, DashboardPage, EngagementHubPage, MonthlyVATReconciliationPage } from './pages';
 import { Loader } from './components';
 import './styles/global.css';
 
@@ -26,6 +26,11 @@ const App = () => {
         setCurrentPage('engagement');
     };
 
+    const handleNavigateToVATReconciliation = (client) => {
+        setSelectedClient(client);
+        setCurrentPage('vat-reconciliation');
+    };
+
     const handleNavigateToDashboard = () => {
         setCurrentPage('dashboard');
         setSelectedClient(null);
@@ -36,9 +41,11 @@ const App = () => {
             {!user ? (
                 <LoginPage onLogin={handleLogin} />
             ) : currentPage === 'engagement' ? (
-                <EngagementHubPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} />
+                <EngagementHubPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} />
+            ) : currentPage === 'vat-reconciliation' ? (
+                <MonthlyVATReconciliationPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} />
             ) : (
-                <DashboardPage user={user} onLogout={handleLogout} onNavigateToEngagement={handleNavigateToEngagement} />
+                <DashboardPage user={user} onLogout={handleLogout} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} />
             )}
 
             {isLoading && (
