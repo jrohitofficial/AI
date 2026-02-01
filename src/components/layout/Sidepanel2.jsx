@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToEngagement, onLogout }) => {
+const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToEngagement, onNavigateToClientProfile, onLogout }) => {
     // SVG Icon components - unique icons for each item
     const iconComponents = {
         clipboard: (
@@ -105,7 +105,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
             title: 'SETUP',
             items: [
             { id: 1, name: 'Engagement Hub', icon: iconComponents.clipboard, isDashboard: false, isEngagementHub: true },
-            { id: 2, name: 'Client Profile', icon: iconComponents.user, isDashboard: false },
+            { id: 2, name: 'Client Profile', icon: iconComponents.user, isDashboard: false, isClientProfile: true },
             { id: 3, name: 'Letter of Engagement', icon: iconComponents.fileText, isDashboard: false }
             ]
         },
@@ -154,13 +154,15 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         }
     ];
 
-    const handleItemClick = (itemName, isDashboard = false, isVATReconciliation = false, isEngagementHub = false) => {
+    const handleItemClick = (itemName, isDashboard = false, isVATReconciliation = false, isEngagementHub = false, isClientProfile = false) => {
         if (isDashboard && onNavigateToDashboard) {
             onNavigateToDashboard();
         } else if (isVATReconciliation && onNavigateToVATReconciliation) {
             onNavigateToVATReconciliation();
         } else if (isEngagementHub && onNavigateToEngagement) {
             onNavigateToEngagement();
+        } else if (isClientProfile && onNavigateToClientProfile) {
+            onNavigateToClientProfile(null); // Pass null since we're already viewing a client
         }
     };
 
@@ -188,7 +190,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
                             {section.items.map((item) => (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub)}
+                                    onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub, item.isClientProfile)}
                                     className={`w-full px-6 py-3 flex items-center gap-3 transition-all text-left ${
                                         activeItem === item.name 
                                             ? 'bg-[#1565C0] text-white' 

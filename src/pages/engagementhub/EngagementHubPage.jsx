@@ -5,7 +5,7 @@ import { MetricCard, ChecklistItem, QuickActionButton, RecentComment, ScrollIndi
 import ActionButton from '../../components/ui/ActionButton';
 import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 
-const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToVATReconciliation }) => {
+const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToClientProfile }) => {
     const [selectedChecklist, setSelectedChecklist] = useState(null);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const mainContentRef = useRef(null);
@@ -60,7 +60,7 @@ const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboa
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
             <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <Sidepanel2 activeItem="Engagement Hub" user={user} onNavigateToDashboard={onNavigateToDashboard} onNavigateToVATReconciliation={() => onNavigateToVATReconciliation(selectedClient)} onLogout={onLogout} selectedClient={selectedClient} />
+                <Sidepanel2 activeItem="Engagement Hub" user={user} onNavigateToDashboard={onNavigateToDashboard} onNavigateToVATReconciliation={() => onNavigateToVATReconciliation(selectedClient)} onNavigateToClientProfile={() => onNavigateToClientProfile(selectedClient)} onLogout={onLogout} selectedClient={selectedClient} />
 
                 {/* Main Content */}
                 <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">
