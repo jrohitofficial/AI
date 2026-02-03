@@ -9,12 +9,12 @@ const RecentInvoicesList = ({ invoices = [] }) => {
         </svg>
         <h3 className="text-lg font-bold text-gray-900">Recent Invoices</h3>
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1">
         {invoices.map((invoice, idx) => (
-          <div key={idx} className="flex items-center justify-between py-1.5 border-b border-gray-200 last:border-0">
+          <div key={idx} className="flex items-center justify-between py-1 border-b border-gray-200 last:border-0">
             <div>
               <div className="text-sm font-medium text-blue-600 cursor-pointer hover:underline">{invoice.id}</div>
-              <div className="text-xs text-gray-500">{invoice.date}</div>
+              <div className="text-[11px] text-gray-500">{invoice.date}</div>
             </div>
             <div className="text-right">
               <div className="text-sm font-medium text-gray-900">{invoice.amount}</div>

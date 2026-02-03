@@ -14,14 +14,14 @@ const CreditUsageCard = ({ used = 'Rs 24,750', limit = 'Rs 125,000' }) => {
         </svg>
         Credit Usage
       </h3>
-      <div className="space-y-4">
+      <div className="space-y-3">
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
+          <div className="bg-amber-50 rounded-lg p-3 border border-amber-100">
             <div className="text-xs text-gray-600 font-semibold uppercase tracking-wide mb-1">Used</div>
             <div className="text-2xl font-bold text-amber-600">{used}</div>
             <div className="text-xs text-gray-500 mt-1">{percentageUsed}% of limit</div>
           </div>
-          <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+          <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
             <div className="text-xs text-gray-600 font-semibold uppercase tracking-wide mb-1">Limit</div>
             <div className="text-2xl font-bold text-emerald-600">{limit}</div>
             <div className="text-xs text-gray-500 mt-1">Total available</div>

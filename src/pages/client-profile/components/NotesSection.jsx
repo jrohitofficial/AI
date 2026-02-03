@@ -36,9 +36,9 @@ const NotesSection = ({ notes: initialNotes = [] }) => {
         </svg>
         <h3 className="text-lg font-bold text-gray-900">Notes</h3>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-2">
         {notes.map((note, idx) => (
-          <div key={idx} className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+          <div key={idx} className="bg-blue-50 rounded-lg p-3 border border-blue-200">
             <div className="text-sm font-medium text-gray-900">{note.text}</div>
             <div className="text-xs text-gray-500 mt-2">
               Added by <span className="font-semibold text-gray-700">{note.author}</span> · {note.date}
