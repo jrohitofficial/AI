@@ -169,29 +169,29 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
     return (
         <div className="w-64 bg-white h-screen flex flex-col fixed left-0 top-0 text-gray-900 shadow-xl z-50 overflow-hidden font-medium">
             {/* Header */}
-            <div className="p-6 border-b border-gray-200 flex-shrink-0">
+            <div className="p-3 border-b border-gray-200 flex-shrink-0">
                 <div className="flex items-center justify-center">
                     <img 
                         src="/img/Loginlogo.png" 
                         alt="AICA Logo" 
-                        className="h-10 w-auto"
+                        className="h-9 w-auto"
                     />
                 </div>
             </div>
 
             {/* Scrollable Menu Items */}
-            <nav className="flex-1 overflow-y-auto py-4 space-y-5 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
+            <nav className="flex-1 overflow-y-auto py-2 space-y-2.5 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
                 {menuSections.map((section, idx) => (
                     <div key={idx}>
-                        <h4 className="text-xs font-bold text-gray-500 uppercase tracking-widest px-6 mb-3">
+                        <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider px-4 mb-1">
                             {section.title}
                         </h4>
-                        <div className="space-y-1">
+                        <div className="space-y-0.5">
                             {section.items.map((item) => (
                                 <button
                                     key={item.id}
                                     onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub, item.isClientProfile)}
-                                    className={`w-full px-6 py-3 flex items-center gap-3 transition-all text-left ${
+                                    className={`w-full px-4 py-1.5 flex items-center gap-1.5 transition-all text-left ${
                                         activeItem === item.name 
                                             ? 'bg-[#1565C0] text-white' 
                                             : 'text-gray-700 hover:bg-gray-100'
@@ -200,7 +200,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
                                     <span className={`flex-shrink-0 ${activeItem === item.name ? 'text-white' : 'text-gray-600'}`}>
                                         {item.icon}
                                     </span>
-                                    <span className="text-sm truncate">
+                                    <span className="text-xs truncate">
                                         {item.name}
                                     </span>
                                 </button>
@@ -211,8 +211,8 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
             </nav>
 
             {/* User Profile Section */}
-            <div className="p-4 border-t border-gray-200 flex-shrink-0">
-                <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-lg p-3 shadow-sm">
+            <div className="p-2.5 border-t border-gray-200 flex-shrink-0">
+                <div className="flex items-center gap-2.5 bg-gray-50 border border-gray-200 rounded-lg p-2 shadow-sm">
                     <div className="w-10 h-10 bg-[#1565C0] rounded-lg flex items-center justify-center font-semibold text-sm text-white flex-shrink-0">
                         {user?.name?.split(' ').map(n => n.charAt(0)).join('') || 'A'}
                     </div>
