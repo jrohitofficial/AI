@@ -9,7 +9,7 @@ import ExportMenu from '../../components/ui/ExportMenu';
 import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 import ScrollIndicator from '../../components/ui/ScrollIndicator';
 
-const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToEngagement }) => {
+const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToEngagement, onNavigateToClientProfile }) => {
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [showSaveProgressConfirm, setShowSaveProgressConfirm] = useState(false);
     const [saveState, setSaveState] = useState('default'); // 'default', 'loading', 'success'
@@ -160,7 +160,15 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
         <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
             <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <Sidepanel2 user={user} onLogout={onLogout} activeItem="Monthly VAT Reconciliation" onNavigateToDashboard={onNavigateToDashboard} onNavigateToEngagement={() => onNavigateToEngagement(selectedClient)} selectedClient={selectedClient} />
+                <Sidepanel2
+                    user={user}
+                    onLogout={onLogout}
+                    activeItem="Monthly VAT Reconciliation"
+                    onNavigateToDashboard={onNavigateToDashboard}
+                    onNavigateToEngagement={() => onNavigateToEngagement(selectedClient)}
+                    onNavigateToClientProfile={() => onNavigateToClientProfile(selectedClient)}
+                    selectedClient={selectedClient}
+                />
 
                 {/* Main Content */}
                 <div className="flex-1 ml-64 flex flex-col overflow-hidden relative">

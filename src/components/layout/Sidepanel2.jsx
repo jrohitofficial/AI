@@ -140,8 +140,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
                 { id: 14, name: 'Cash Flow Statement', icon: iconComponents.arrowRight, isDashboard: false },
                 { id: 15, name: 'Statement of Change in Equity', icon: iconComponents.arrowLeftRight, isDashboard: false },
                 { id: 16, name: 'Balance Sheet', icon: iconComponents.scale, isDashboard: false },
-                { id: 17, name: 'Notes 3-1 - 3.5', icon: iconComponents.bookmark, isDashboard: false },
-                { id: 18, name: 'Notes 3.6 - 3.11', icon: iconComponents.bookmark, isDashboard: false }
+                { id: 17, name: 'Note Master', icon: iconComponents.bookmark, isDashboard: false }
             ]
         },
         {
@@ -183,7 +182,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
             <nav className="flex-1 overflow-y-auto py-2 space-y-2.5 scrollbar-hide" style={{scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
                 {menuSections.map((section, idx) => (
                     <div key={idx}>
-                        <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wider px-4 mb-1">
+                        <h4 className="text-[10px] font-bold text-gray-700 uppercase tracking-wider px-4 mb-1">
                             {section.title}
                         </h4>
                         <div className="space-y-0.5">

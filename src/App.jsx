@@ -49,7 +49,7 @@ const App = () => {
             ) : currentPage === 'engagement' ? (
                 <EngagementHubPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} />
             ) : currentPage === 'vat-reconciliation' ? (
-                <MonthlyVATReconciliationPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} />
+                <MonthlyVATReconciliationPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToClientProfile={handleNavigateToClientProfile} />
             ) : currentPage === 'client-profile' ? (
                 <ClientProfilePage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} />
             ) : (

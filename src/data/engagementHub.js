@@ -62,7 +62,7 @@ export const engagementHubData = {
             id: 3,
             title: 'Disclosure Notes Preparation',
             status: 'NOT STARTED',
-            progress: 0,
+            progress: 15,
             dueDate: '2025-02-10',
             assignedTo: 'Unassigned',
             tasks: [

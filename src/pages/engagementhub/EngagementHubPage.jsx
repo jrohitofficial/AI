@@ -96,15 +96,16 @@ const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboa
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Audit Checklist - Left Column (2/3 width) */}
                         <div className="lg:col-span-2">
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                <div className="flex items-center justify-between mb-6">
-                                    <h2 className="text-base font-bold text-gray-900">Audit Checklist Progress</h2>
-                                    <button className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline">
+                            <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
+                                <div className="flex items-center justify-between px-6 py-4">
+                                    <h2 className="text-lg font-bold text-gray-900">Audit Checklist Progress</h2>
+                                    <button className="text-sm font-semibold text-blue-600 hover:text-blue-700">
                                         View All
                                     </button>
                                 </div>
+                                <div className="border-t border-gray-200"></div>
 
-                                <div className="space-y-4">
+                                <div className="px-6 py-4 space-y-3">
                                     {engagementHubData.auditChecklist.map((item) => (
                                         <ChecklistItem
                                             key={item.id}

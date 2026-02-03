@@ -15,100 +15,63 @@ import React from 'react';
  */
 const ChecklistItem = ({ 
     title, 
-    status, 
     progress, 
-    dueDate, 
-    assignedTo,
-    tasks = [],
     onViewDetails
 }) => {
-    const getStatusConfig = (status) => {
-        const config = {
-            'COMPLETED': {
-                badge: 'bg-green-100 text-green-700',
-                bg: 'bg-green-50 border-green-200',
-                icon: '✓',
-                progressColor: 'bg-green-500'
-            },
-            'IN PROGRESS': {
-                badge: 'bg-blue-100 text-blue-700',
-                bg: 'bg-blue-50 border-blue-200',
-                icon: '⟳',
-                progressColor: 'bg-blue-500'
-            },
-            'NOT STARTED': {
-                badge: 'bg-gray-100 text-gray-700',
-                bg: 'bg-gray-50 border-gray-200',
-                icon: '○',
-                progressColor: 'bg-gray-400'
-            }
+    const getVisualConfig = (titleText) => {
+        const normalized = titleText.toLowerCase();
+        if (normalized.includes('planning') || normalized.includes('risk')) {
+            return {
+                iconBg: 'bg-blue-100',
+                iconColor: 'text-blue-600',
+                progressColor: 'bg-green-500',
+                iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+            };
+        }
+        if (normalized.includes('vat') || normalized.includes('tax')) {
+            return {
+                iconBg: 'bg-orange-100',
+                iconColor: 'text-orange-600',
+                progressColor: 'bg-orange-500',
+                iconPath: 'M9 7h6m0 10v-3m-6 3v-3m-6-4h18a2 2 0 012 2v6a2 2 0 01-2 2H3a2 2 0 01-2-2v-6a2 2 0 012-2z'
+            };
+        }
+        return {
+            iconBg: 'bg-gray-100',
+            iconColor: 'text-gray-500',
+            progressColor: 'bg-slate-800',
+            iconPath: 'M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z'
         };
-        return config[status] || config['NOT STARTED'];
     };
 
-    const statusConfig = getStatusConfig(status);
+    const visual = getVisualConfig(title);
 
     return (
-        <div 
-            className={`rounded-lg p-4 border ${statusConfig.bg} hover:shadow-md transition-all cursor-pointer font-['Inter',sans-serif]`}
+        <div
+            className="rounded-xl p-3 transition-all cursor-pointer"
             onClick={onViewDetails}
         >
-            {/* Main Row */}
-            <div className="flex items-start justify-between mb-3">
-                <div className="flex items-start gap-3 flex-1">
-                    <div className="text-lg font-bold text-gray-600 mt-0.5">{statusConfig.icon}</div>
-                    <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-gray-900 mb-1">{title}</h4>
-                        <p className="text-xs text-gray-600">
-                            Due: <span className="font-medium">{new Date(dueDate).toLocaleDateString()}</span>
-                            {assignedTo && assignedTo !== 'Unassigned' && (
-                                <span> • Assigned to: <span className="font-medium">{assignedTo}</span></span>
-                            )}
-                        </p>
+            <div className="space-y-2">
+                <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${visual.iconBg}`}>
+                        <svg className={`w-5 h-5 ${visual.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={visual.iconPath} />
+                        </svg>
+                    </div>
+                    <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                            <h4 className="text-base font-semibold text-gray-900">{title}</h4>
+                            <span className="text-xs font-semibold text-gray-500">{progress}%</span>
+                        </div>
+                        <div className="mt-2 w-full bg-gray-200/80 rounded-full h-2.5 overflow-hidden">
+                            <div
+                                className={`h-full rounded-full ${visual.progressColor}`}
+                                style={{ width: `${progress}%` }}
+                            />
+                        </div>
                     </div>
                 </div>
-                <span className={`text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap ${statusConfig.badge}`}>
-                    {status}
-                </span>
             </div>
-
-            {/* Progress Bar */}
-            <div className="mb-3">
-                <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-gray-600">Progress</span>
-                    <span className="text-xs font-bold text-gray-900">{progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div
-                        className={`h-full rounded-full transition-all duration-300 ${statusConfig.progressColor}`}
-                        style={{ width: `${progress}%` }}
-                    ></div>
-                </div>
-            </div>
-
-            {/* Sub Tasks */}
-            {tasks.length > 0 && (
-                <div className="space-y-1.5 mt-3 pt-3 border-t border-gray-200/50">
-                    {tasks.slice(0, 3).map((task, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-gray-600">
-                            <span className={`font-bold flex-shrink-0 ${
-                                task.status === 'COMPLETED' ? 'text-green-600' : 
-                                task.status === 'IN PROGRESS' ? 'text-blue-600' : 
-                                'text-gray-400'
-                            }`}>
-                                {task.status === 'COMPLETED' ? '✓' : 
-                                 task.status === 'IN PROGRESS' ? '→' : '○'}
-                            </span>
-                            <span className={task.status === 'COMPLETED' ? 'text-gray-500 line-through' : ''}>
-                                {task.name}
-                            </span>
-                        </div>
-                    ))}
-                    {tasks.length > 3 && (
-                        <p className="text-xs text-gray-500 font-medium pt-1">+{tasks.length - 3} more tasks</p>
-                    )}
-                </div>
-            )}
         </div>
     );
 };
