@@ -77,25 +77,25 @@ const EngagementHubPage = ({ user, selectedClient, onLogout, onNavigateToDashboa
                     {/* Main Content Area */}
                     <main ref={mainContentRef} className="p-8 overflow-y-auto hide-scrollbar flex-1">
                     {/* Metrics Section */}
-                    <div className="mb-8">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {engagementHubData.metrics.map((metric) => (
-                                <MetricCard
-                                    key={metric.id}
-                                    title={metric.title}
-                                    value={metric.value}
-                                    change={metric.change}
-                                    icon={metric.icon}
-                                    trend={metric.trend}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    {/* Metrics + Audit (Left) and Quick Actions (Right) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                        {/* Left Column (2/3 width) */}
+                        <div className="lg:col-span-2 space-y-6">
+                            {/* Metrics Section */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-full">
+                                {engagementHubData.metrics.map((metric) => (
+                                    <MetricCard
+                                        key={metric.id}
+                                        title={metric.title}
+                                        value={metric.value}
+                                        change={metric.change}
+                                        icon={metric.icon}
+                                        trend={metric.trend}
+                                    />
+                                ))}
+                            </div>
 
-                    {/* Main Content Grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Audit Checklist - Left Column (2/3 width) */}
-                        <div className="lg:col-span-2">
+                            {/* Audit Checklist */}
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
                                 <div className="flex items-center justify-between px-6 py-4">
                                     <h2 className="text-lg font-bold text-gray-900">Audit Checklist Progress</h2>
