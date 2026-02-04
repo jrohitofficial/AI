@@ -34,18 +34,13 @@ const DirectExpensesSection = () => {
         {/* Expense Rows */}
         {expenses.map((expense) => (
           <div key={expense.id} className="flex items-center gap-3">
-            <select 
+            <input 
+              type="text" 
+              placeholder="e.g., Wages & Salaries"
               value={expense.type}
               onChange={(e) => handleExpenseChange(expense.id, 'type', e.target.value)}
               className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
-            >
-              <option value="">Select expense type</option>
-              <option value="Wages & Salaries (Production)">Wages & Salaries (Production)</option>
-              <option value="Rent">Rent</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Insurance">Insurance</option>
-              <option value="Other">Other</option>
-            </select>
+            />
             <input 
               type="text" 
               placeholder="0.00"

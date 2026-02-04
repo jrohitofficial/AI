@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Sidepanel2 from '../../components/layout/Sidepanel2';
 import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 import ScrollIndicator from '../../components/ui/ScrollIndicator';
@@ -22,6 +22,12 @@ const GrossRevenuePage = ({
   onNavigateToGrossRevenue
 }) => {
   const scrollContainerRef = useRef(null);
+  const [openingStock, setOpeningStock] = useState('4,500,000.00');
+  const [purchases, setPurchases] = useState({ 
+    domestic: '0.00', 
+    imports: '0.00', 
+    exempt: '125,000.00' 
+  });
 
   const clientData = selectedClient || { name: 'Everest Trading Co. Ltd', pan: 'PAN: 302456789' };
 
@@ -57,14 +63,17 @@ const GrossRevenuePage = ({
               <div className="grid grid-cols-3 gap-4">
                 {/* Left Column (2/3) */}
                 <div className="col-span-2 space-y-4">
-                  <StockAndPurchasesSection />
+                  <StockAndPurchasesSection 
+                    onOpeningStockChange={setOpeningStock}
+                    onPurchasesChange={setPurchases}
+                  />
                   <DirectExpensesSection />
                   <RevenueAndInventorySection />
                 </div>
 
                 {/* Right Column (1/3) */}
                 <div className="sticky top-6 self-start space-y-4">
-                  <CostCalculationBreakdown />
+                  <CostCalculationBreakdown openingStock={openingStock} purchases={purchases} />
                   <ComplianceAlert />
                 </div>
               </div>

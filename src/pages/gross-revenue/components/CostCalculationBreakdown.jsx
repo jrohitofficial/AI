@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CostCalculationBreakdown = () => {
+const CostCalculationBreakdown = ({ openingStock = '4,500,000.00', purchases = { domestic: '0.00', imports: '0.00', exempt: '125,000.00' } }) => {
   const vsLastYear = 2.4; // Can be positive or negative
   const isPositive = vsLastYear >= 0;
   
@@ -49,7 +49,9 @@ const CostCalculationBreakdown = () => {
           <div className="space-y-0 divide-y divide-gray-100">
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-gray-700 font-medium">Opening Stock (+)</span>
-              <span className="text-sm font-semibold text-gray-900 tabular-nums">4,500,000.00</span>
+              <span className="text-sm font-semibold text-gray-900 tabular-nums">
+                {parseFloat(openingStock.replace(/,/g, '')).toFixed(2)}
+              </span>
             </div>
             
             <div className="py-2">
@@ -59,15 +61,15 @@ const CostCalculationBreakdown = () => {
               <div className="bg-gray-50 rounded-md p-2 space-y-1.5">
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-600 pl-2">• Domestic Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">8,175,000.00</span>
+                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.domestic.replace(/,/g, '')).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-600 pl-2">• Import Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">8,175,000.00</span>
+                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.imports.replace(/,/g, '')).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-xs text-gray-600 pl-2">• EXEMPT Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">8,175,000.00</span>
+                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.exempt.replace(/,/g, '')).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center pt-1.5 mt-1.5 border-t border-gray-300">
                   <span className="text-xs font-bold text-gray-800">Total Purchase (+)</span>

@@ -40,6 +40,21 @@ const VATTable = ({ data = [] }) => {
         setTableData(newData);
     };
 
+    const handlePortalSalesChange = (index, value) => {
+        const numValue = parseFloat(value) || 0;
+        const newData = [...tableData];
+        newData[index].portalSales = parseFloat(numValue.toFixed(2));
+        newData[index].portalVat = parseFloat((numValue * 0.13).toFixed(2));
+        setTableData(newData);
+    };
+
+    const handlePortalSalesBlur = (index) => {
+        const newData = [...tableData];
+        newData[index].portalSales = parseFloat(newData[index].portalSales.toFixed(2));
+        newData[index].portalVat = parseFloat((newData[index].portalSales * 0.13).toFixed(2));
+        setTableData(newData);
+    };
+
     return (
         <div className="w-full overflow-x-auto">
             <table className="w-full border-collapse text-sm leading-none">
@@ -88,7 +103,18 @@ const VATTable = ({ data = [] }) => {
                                     />
                                 </td>
                                 <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200 bg-gray-50 font-semibold">{formatCurrency(row.vat)}</td>
-                                <td className="px-4 py-1 text-xs text-blue-600 text-right font-semibold border-r border-gray-200">{formatCurrency(row.portalSales)}</td>
+                                <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200">
+                                    <input
+                                        type="number"
+                                        value={row.portalSales || '0'}
+                                        onChange={(e) => handlePortalSalesChange(index, e.target.value)}
+                                        onBlur={() => handlePortalSalesBlur(index)}
+                                        className="w-full h-7 text-right px-2 py-0.5 border-0 bg-transparent focus:outline-none text-xs font-medium"
+                                        placeholder="0"
+                                        step="0.01"
+                                        min="0"
+                                    />
+                                </td>
                                 <td className="px-4 py-1 text-xs text-blue-600 text-right font-semibold border-r border-gray-200">{formatCurrency(row.portalVat)}</td>
                                 <td className={`px-4 py-1 text-xs text-right font-semibold flex items-center justify-end gap-1.5`}>
                     {difference === 0 ? (

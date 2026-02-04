@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const StockAndPurchasesSection = () => {
+const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange }) => {
+  const [openingStock, setOpeningStock] = useState('4,500,000.00');
+  const [domesticPurchases, setDomesticPurchases] = useState('0.00');
+  const [importPurchases, setImportPurchases] = useState('0.00');
+  const [exemptPurchases, setExemptPurchases] = useState('125,000.00');
+
+  const handleOpeningStockChange = (value) => {
+    setOpeningStock(value);
+    if (onOpeningStockChange) {
+      onOpeningStockChange(value);
+    }
+  };
+
+  const handlePurchasesChange = (domestic, imports, exempt) => {
+    if (onPurchasesChange) {
+      onPurchasesChange({ domestic, imports, exempt });
+    }
+  };
+
+  const handleDomesticChange = (value) => {
+    setDomesticPurchases(value);
+    handlePurchasesChange(value, importPurchases, exemptPurchases);
+  };
+
+  const handleImportChange = (value) => {
+    setImportPurchases(value);
+    handlePurchasesChange(domesticPurchases, value, exemptPurchases);
+  };
+
+  const handleExemptChange = (value) => {
+    setExemptPurchases(value);
+    handlePurchasesChange(domesticPurchases, importPurchases, value);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
       <div className="flex items-center justify-between mb-3">
@@ -20,7 +53,8 @@ const StockAndPurchasesSection = () => {
             <input 
               type="text" 
               placeholder="NPR"
-              defaultValue="4,500,000.00"
+              value={openingStock}
+              onChange={(e) => handleOpeningStockChange(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold bg-gray-50 text-sm"
             />
           </div>
@@ -33,6 +67,8 @@ const StockAndPurchasesSection = () => {
             <input 
               type="text" 
               placeholder="0.00"
+              value={domesticPurchases}
+              onChange={(e) => handleDomesticChange(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
             />
           </div>
@@ -41,6 +77,8 @@ const StockAndPurchasesSection = () => {
             <input 
               type="text" 
               placeholder="0.00"
+              value={importPurchases}
+              onChange={(e) => handleImportChange(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
             />
           </div>
@@ -52,7 +90,8 @@ const StockAndPurchasesSection = () => {
           <input 
             type="text" 
             placeholder="0.00"
-            defaultValue="125,000.00"
+            value={exemptPurchases}
+            onChange={(e) => handleExemptChange(e.target.value)}
             className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
           />
         </div>

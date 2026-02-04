@@ -24,6 +24,46 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
     // Use selectedClient if available, otherwise use default data
     const clientData = selectedClient || { name: 'Default Client', pan: 'N/A' };
 
+    // Get current date and time
+    const getCurrentDateTime = () => {
+        const now = new Date();
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = months[now.getMonth()];
+        const day = now.getDate();
+        const year = now.getFullYear();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return `${month} ${day}, ${year} at ${hours}:${minutes} ${ampm}`;
+    };
+
+    // Calculate VAT discrepancies
+    const getVATDiscrepancies = () => {
+        let totalDifference = 0;
+        const discrepancyMonths = [];
+
+        monthlyVatReconciliationData.forEach(row => {
+            const difference = Math.abs(row.vat - row.portalVat);
+            totalDifference += difference;
+            
+            if (difference > 0) {
+                discrepancyMonths.push(row.month);
+            }
+        });
+
+        return { totalDifference, discrepancyMonths };
+    };
+
+    const { totalDifference, discrepancyMonths } = getVATDiscrepancies();
+    
+    const formatMonthsList = (months) => {
+        if (months.length === 0) return '';
+        if (months.length === 1) return `the month of ${months[0]}`;
+        return `the months of ${months.slice(0, -1).join(', ')} and ${months[months.length - 1]}`;
+    };
+
     // Format currency
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-NP', {
@@ -229,14 +269,14 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
 
                         {/* Info Banners - Horizontal Layout */}
                         <div className="grid grid-cols-2 gap-4">
-                            {reconciliationInsights.discrepancies.length > 0 && (
+                            {totalDifference > 0 && (
                                 <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 flex gap-3">
                                     <svg className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                     </svg>
                                     <div>
                                         <p className="font-semibold text-orange-900">Reconciliation Insight</p>
-                                        <p className="text-sm text-orange-800 mt-1">There is a total VAT mismatch of ₹ 1,625.00 for the period. Most of this stems from the month of Ashwin. Please verify if any invoices were recorded in the ledger but omitted in the VAT return or vice versa.</p>
+                                        <p className="text-sm text-orange-800 mt-1">There is a total VAT mismatch of {formatCurrency(totalDifference)} for the period. Most of this stems from <span className="font-bold">{formatMonthsList(discrepancyMonths)}</span>. Please verify if any invoices were recorded in the ledger but omitted in the VAT return or vice versa.</p>
                                     </div>
                                 </div>
                             )}
@@ -247,7 +287,7 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
                                 </svg>
                                 <div>
                                     <p className="font-semibold text-blue-900">Sync Information</p>
-                                    <p className="text-sm text-blue-800 mt-1">Last sync with ISD Portal: <span className="font-bold">2080-10-15-14:30</span>. Click the sync button at the top to fetch latest filing data. Manual changes to 'VAT Return' columns will be highlighted.</p>
+                                    <p className="text-sm text-blue-800 mt-1">Last sync with IRD Portal: <span className="font-bold">{getCurrentDateTime()}</span>. Click the sync button at the top to fetch latest filing data. Manual changes to 'VAT Return' columns will be highlighted.</p>
                                 </div>
                             </div>
                         </div>

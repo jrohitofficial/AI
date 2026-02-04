@@ -73,7 +73,7 @@ export const engagementHubData = {
         }
     ],
     quickActions: [
-        { id: 1, title: 'Jump to VAT Beacon', icon: '🔗' },
+        { id: 1, title: 'Jump to VAT Reconciliation', icon: '🔗' },
         { id: 2, title: 'Open PPE Schedule', icon: '📑' },
         { id: 3, title: 'Review Ratio Summary', icon: '📊' },
         { id: 4, title: 'Verify Cash & Bank', icon: '💳' }
