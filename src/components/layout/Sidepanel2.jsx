@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToEngagement, onNavigateToClientProfile, onLogout }) => {
+const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard, onNavigateToVATReconciliation, onNavigateToEngagement, onNavigateToClientProfile, onNavigateToGrossRevenue, onLogout }) => {
     // SVG Icon components - unique icons for each item
     const iconComponents = {
         clipboard: (
@@ -113,7 +113,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
             title: 'TRADING ACCOUNT',
             items: [
                 { id: 4, name: 'Monthly VAT Reconciliation', icon: iconComponents.receipt, isDashboard: false, isVATReconciliation: true },
-                { id: 5, name: 'Gross Revenue', icon: iconComponents.trendingUp, isDashboard: false },
+                { id: 5, name: 'Gross Revenue', icon: iconComponents.trendingUp, isDashboard: false, isGrossRevenue: true },
                 { id: 6, name: 'Inventories', icon: iconComponents.package, isDashboard: false },
                 { id: 7, name: 'Ratio Summary & RID Compliance', icon: iconComponents.pieChart, isDashboard: false }
             ]
@@ -153,7 +153,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         }
     ];
 
-    const handleItemClick = (itemName, isDashboard = false, isVATReconciliation = false, isEngagementHub = false, isClientProfile = false) => {
+    const handleItemClick = (itemName, isDashboard = false, isVATReconciliation = false, isEngagementHub = false, isClientProfile = false, isGrossRevenue = false) => {
         if (isDashboard && onNavigateToDashboard) {
             onNavigateToDashboard();
         } else if (isVATReconciliation && onNavigateToVATReconciliation) {
@@ -161,7 +161,9 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
         } else if (isEngagementHub && onNavigateToEngagement) {
             onNavigateToEngagement();
         } else if (isClientProfile && onNavigateToClientProfile) {
-            onNavigateToClientProfile(null); // Pass null since we're already viewing a client
+            onNavigateToClientProfile(null);
+        } else if (isGrossRevenue && onNavigateToGrossRevenue) {
+            onNavigateToGrossRevenue();
         }
     };
 
@@ -189,7 +191,7 @@ const Sidepanel2 = ({ activeItem = 'Engagement Hub', user, onNavigateToDashboard
                             {section.items.map((item) => (
                                 <button
                                     key={item.id}
-                                    onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub, item.isClientProfile)}
+                                    onClick={() => handleItemClick(item.name, item.isDashboard, item.isVATReconciliation, item.isEngagementHub, item.isClientProfile, item.isGrossRevenue)}
                                     className={`w-full px-4 py-1.5 flex items-center gap-1.5 transition-all text-left ${
                                         activeItem === item.name 
                                             ? 'bg-[#1565C0] text-white' 

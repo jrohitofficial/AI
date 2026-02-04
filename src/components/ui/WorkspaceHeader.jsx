@@ -33,7 +33,7 @@ const WorkspaceHeader = ({
                             </span>
                             <span className="text-gray-400">›</span>
                             <span className="text-gray-900 font-semibold font-['Inter',sans-serif]">
-                                {clientData?.name || 'Default Client'}
+                                {clientData?.name || clientData?.companyName || 'Default Client'}
                             </span>
                         </div>
                         <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded font-['Inter',sans-serif]">

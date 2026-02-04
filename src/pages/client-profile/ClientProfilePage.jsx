@@ -26,7 +26,8 @@ const ClientProfilePage = ({
   onNavigateToDashboard, 
   onNavigateToEngagement,
   onNavigateToVATReconciliation,
-  onNavigateToClientProfile 
+  onNavigateToClientProfile,
+  onNavigateToGrossRevenue 
 }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const client = selectedClient || clientProfileData;
@@ -91,6 +92,7 @@ const ClientProfilePage = ({
         onNavigateToEngagement={onNavigateToEngagement}
         onNavigateToVATReconciliation={onNavigateToVATReconciliation}
         onNavigateToClientProfile={onNavigateToClientProfile}
+        onNavigateToGrossRevenue={onNavigateToGrossRevenue}
       />
 
       {/* Main Content */}

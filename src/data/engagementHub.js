@@ -11,7 +11,7 @@ export const engagementHubData = {
             title: 'Total Assets',
             value: 'NPR 45.2M',
             change: '+29% vs LY',
-            icon: '💰',
+            icon: 'wallet',
             trend: 'up'
         },
         {
@@ -19,7 +19,7 @@ export const engagementHubData = {
             title: 'Net Profit',
             value: 'NPR 8.4M',
             change: 'Margin: 18.2%',
-            icon: '📈',
+            icon: 'chart',
             trend: 'up'
         },
         {
@@ -27,7 +27,7 @@ export const engagementHubData = {
             title: 'Working Papers',
             value: '75% Complete',
             change: '18 of 24 items done',
-            icon: '📋',
+            icon: 'document',
             trend: 'progress'
         }
     ],

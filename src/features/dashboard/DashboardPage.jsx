@@ -7,7 +7,7 @@ import AddClientModal from './AddClientModal';
 import { ScrollIndicator, Button, ExportMenu } from '../../components';
 import { clients as initialClients } from '../../data/clients';
 
-const DashboardPage = ({ user, onLogout, onNavigateToEngagement, onNavigateToVATReconciliation, onNavigateToClientProfile }) => {
+const DashboardPage = ({ user, onLogout, onNavigateToEngagement, onNavigateToVATReconciliation, onNavigateToClientProfile, onNavigateToDashboard, onNavigateToGrossRevenue }) => {
     const [clients, setClients] = useState(initialClients);
     const [selectedYear, setSelectedYear] = useState('FY 2080/81');
     const [showExportMenu, setShowExportMenu] = useState(false);

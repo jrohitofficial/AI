@@ -9,7 +9,7 @@ import ExportMenu from '../../components/ui/ExportMenu';
 import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 import ScrollIndicator from '../../components/ui/ScrollIndicator';
 
-const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToEngagement, onNavigateToClientProfile }) => {
+const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNavigateToDashboard, onNavigateToEngagement, onNavigateToClientProfile, onNavigateToGrossRevenue, onNavigateToVATReconciliation }) => {
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [showSaveProgressConfirm, setShowSaveProgressConfirm] = useState(false);
     const [saveState, setSaveState] = useState('default'); // 'default', 'loading', 'success'
@@ -167,6 +167,8 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
                     onNavigateToDashboard={onNavigateToDashboard}
                     onNavigateToEngagement={() => onNavigateToEngagement(selectedClient)}
                     onNavigateToClientProfile={() => onNavigateToClientProfile(selectedClient)}
+                    onNavigateToVATReconciliation={onNavigateToVATReconciliation}
+                    onNavigateToGrossRevenue={onNavigateToGrossRevenue}
                     selectedClient={selectedClient}
                 />
 
@@ -183,13 +185,13 @@ const MonthlyVATReconciliationPage = ({ user, selectedClient, onLogout, onNaviga
                     />
 
                 {/* Header Details */}
-                <div className="bg-white border-b border-gray-200 px-8 py-6">
-                    <div className="flex items-center justify-between mb-4">
+                <div className="bg-white border-b border-gray-200 px-8 py-3">
+                    <div className="flex items-center justify-between gap-6">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Monthly VAT vs Ledger Comparison</h1>
-                            <p className="text-sm text-gray-600 mt-1">Comparison of Sales and VAT, Stability for Fiscal Year</p>
+                            <p className="text-sm text-gray-600 mt-0.5">Comparison of Sales and VAT, Stability for Fiscal Year</p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
                             <div className="relative">
                                 <ActionButton
                                     variant="secondary"

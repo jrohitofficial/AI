@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { LoginPage, DashboardPage, EngagementHubPage, MonthlyVATReconciliationPage } from './pages';
 import ClientProfilePage from './pages/client-profile/ClientProfilePage';
+import GrossRevenuePage from './pages/gross-revenue/GrossRevenuePage';
 import { Loader } from './components';
 import './styles/global.css';
 
@@ -42,18 +43,25 @@ const App = () => {
         setCurrentPage('client-profile');
     };
 
+    const handleNavigateToGrossRevenue = (client) => {
+        setSelectedClient(client);
+        setCurrentPage('gross-revenue');
+    };
+
     return (
         <>
             {!user ? (
                 <LoginPage onLogin={handleLogin} />
             ) : currentPage === 'engagement' ? (
-                <EngagementHubPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} />
+                <EngagementHubPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} onNavigateToGrossRevenue={handleNavigateToGrossRevenue} />
             ) : currentPage === 'vat-reconciliation' ? (
-                <MonthlyVATReconciliationPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToClientProfile={handleNavigateToClientProfile} />
+                <MonthlyVATReconciliationPage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToClientProfile={handleNavigateToClientProfile} onNavigateToGrossRevenue={handleNavigateToGrossRevenue} />
             ) : currentPage === 'client-profile' ? (
-                <ClientProfilePage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} />
+                <ClientProfilePage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} onNavigateToGrossRevenue={handleNavigateToGrossRevenue} />
+            ) : currentPage === 'gross-revenue' ? (
+                <GrossRevenuePage user={user} selectedClient={selectedClient} onLogout={handleLogout} onNavigateToDashboard={handleNavigateToDashboard} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} onNavigateToGrossRevenue={handleNavigateToGrossRevenue} />
             ) : (
-                <DashboardPage user={user} onLogout={handleLogout} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} />
+                <DashboardPage user={user} onLogout={handleLogout} onNavigateToEngagement={handleNavigateToEngagement} onNavigateToVATReconciliation={handleNavigateToVATReconciliation} onNavigateToClientProfile={handleNavigateToClientProfile} onNavigateToGrossRevenue={handleNavigateToGrossRevenue} />
             )}
 
             {isLoading && (

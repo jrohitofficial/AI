@@ -9,6 +9,7 @@ const MetricCard = ({
     trendColor = 'text-gray-600',
     badge,
     badgeColor = 'bg-gray-100 text-gray-700',
+    icon,
     className = '' 
 }) => {
     const getTrendColor = (trend) => {
@@ -23,11 +24,16 @@ const MetricCard = ({
 
     return (
         <div className={`group bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:shadow-lg hover:border-gray-300 transition-all duration-300 ${className}`}>
-            {/* Header with Title */}
-            <div className="mb-4">
+            {/* Header with Title and Icon */}
+            <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider leading-tight">
                     {title}
                 </h3>
+                {icon && (
+                    <div className="text-blue-600 opacity-80 group-hover:opacity-100 transition-opacity duration-200">
+                        {icon}
+                    </div>
+                )}
             </div>
             
             {/* Value Display */}
