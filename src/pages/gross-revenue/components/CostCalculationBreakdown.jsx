@@ -133,7 +133,7 @@ const CostCalculationBreakdown = ({
                 </div>
               </div>
               <div className="flex justify-between items-center pt-2 mt-2 border-t border-gray-200">
-                <span className="text-sm font-semibold text-gray-800">Total Purchase(+)</span>
+                <span className="text-sm font-semibold text-gray-800">Total Purchase (+)</span>
                 <span className="text-sm font-semibold text-gray-900 tabular-nums">{formatNumber(totalPurchases)}</span>
               </div>
             </div>

@@ -37,8 +37,8 @@ const GrossRevenuePage = ({
   const [exemptSales, setExemptSales] = useState('5,200,000.00');
   const [grossMarginPercent, setGrossMarginPercent] = useState(0);
 
-  // Calculate total taxable sales from VAT reconciliation data
-  const grossSales = monthlyVatReconciliationData.reduce((sum, row) => sum + row.taxableSales, 0);
+  // Calculate total taxable sales from VAT reconciliation data - using As Per VAT Return (portalSales)
+  const grossSales = monthlyVatReconciliationData.reduce((sum, row) => sum + row.portalSales, 0);
 
   const clientData = selectedClient || { name: 'Everest Trading Co. Ltd', pan: 'PAN: 302456789' };
 

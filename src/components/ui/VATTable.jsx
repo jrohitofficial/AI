@@ -14,8 +14,8 @@ const VATTable = ({ data = [] }) => {
     const formatCurrency = (value) => {
         const numValue = parseFloat(value) || 0;
         return new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
         }).format(numValue);
     };
 
@@ -26,7 +26,8 @@ const VATTable = ({ data = [] }) => {
     };
 
     const handleTaxableSalesChange = (index, value) => {
-        const numValue = parseFloat(value) || 0;
+        const cleanedValue = String(value).replace(/,/g, '');
+        const numValue = parseFloat(cleanedValue) || 0;
         const newData = [...tableData];
         newData[index].taxableSales = parseFloat(numValue.toFixed(2));
         newData[index].vat = parseFloat((numValue * 0.13).toFixed(2));
@@ -41,7 +42,8 @@ const VATTable = ({ data = [] }) => {
     };
 
     const handlePortalSalesChange = (index, value) => {
-        const numValue = parseFloat(value) || 0;
+        const cleanedValue = String(value).replace(/,/g, '');
+        const numValue = parseFloat(cleanedValue) || 0;
         const newData = [...tableData];
         newData[index].portalSales = parseFloat(numValue.toFixed(2));
         newData[index].portalVat = parseFloat((numValue * 0.13).toFixed(2));
@@ -92,12 +94,12 @@ const VATTable = ({ data = [] }) => {
                                 <td className="px-4 py-1 text-xs font-semibold text-blue-900 bg-blue-50 border-r border-blue-200">{row.month}</td>
                                 <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200">
                                     <input
-                                        type="number"
-                                        value={row.taxableSales || '0'}
+                                        type="text"
+                                        value={row.taxableSales ? formatCurrency(row.taxableSales) : ''}
                                         onChange={(e) => handleTaxableSalesChange(index, e.target.value)}
                                         onBlur={() => handleTaxableSalesBlur(index)}
-                                        className="w-full h-7 text-right px-2 py-0.5 border-0 bg-transparent focus:outline-none text-xs font-medium"
-                                        placeholder="0"
+                                        className="w-full h-7 text-right px-2 py-0.5 border-0 bg-transparent focus:outline-none text-xs font-medium placeholder:text-gray-400"
+                                        placeholder="0.00"
                                         step="0.01"
                                         min="0"
                                     />
@@ -105,12 +107,12 @@ const VATTable = ({ data = [] }) => {
                                 <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200 bg-gray-50 font-semibold">{formatCurrency(row.vat)}</td>
                                 <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200">
                                     <input
-                                        type="number"
-                                        value={row.portalSales || '0'}
+                                        type="text"
+                                        value={row.portalSales ? formatCurrency(row.portalSales) : ''}
                                         onChange={(e) => handlePortalSalesChange(index, e.target.value)}
                                         onBlur={() => handlePortalSalesBlur(index)}
-                                        className="w-full h-7 text-right px-2 py-0.5 border-0 bg-transparent focus:outline-none text-xs font-medium"
-                                        placeholder="0"
+                                        className="w-full h-7 text-right px-2 py-0.5 border-0 bg-transparent focus:outline-none text-xs font-medium placeholder:text-gray-400"
+                                        placeholder="0.00"
                                         step="0.01"
                                         min="0"
                                     />
