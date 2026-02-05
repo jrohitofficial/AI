@@ -23,18 +23,18 @@ const GrossRevenuePage = ({
   onNavigateToGrossRevenue
 }) => {
   const scrollContainerRef = useRef(null);
-  const [openingStock, setOpeningStock] = useState('4,500,000.00');
+  const [openingStock, setOpeningStock] = useState('0.00');
   const [purchases, setPurchases] = useState({ 
     domestic: '0.00', 
     imports: '0.00', 
-    exempt: '125,000.00' 
+    exempt: '0.00' 
   });
-  const [directExpenses, setDirectExpenses] = useState('850,000.00');
-  const [closingStock, setClosingStock] = useState('5,200,000.00');
+  const [directExpenses, setDirectExpenses] = useState('0.00');
+  const [closingStock, setClosingStock] = useState('0.00');
   const [purchaseReturns, setPurchaseReturns] = useState('0.00');
   const [otherIncomes, setOtherIncomes] = useState('0.00');
   const [salesReturns, setSalesReturns] = useState('0.00');
-  const [exemptSales, setExemptSales] = useState('5,200,000.00');
+  const [exemptSales, setExemptSales] = useState('0.00');
   const [grossMarginPercent, setGrossMarginPercent] = useState(0);
 
   // Calculate total taxable sales from VAT reconciliation data - using As Per VAT Return (portalSales)

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherIncomesChange, onSalesReturnsChange, onExemptSalesChange }) => {
-  const [closingStock, setClosingStock] = useState('5,200,000.00');
+  const [closingStock, setClosingStock] = useState('0.00');
   const [otherIncomes, setOtherIncomes] = useState('0.00');
   const [salesReturns, setSalesReturns] = useState('0.00');
-  const [exemptSales, setExemptSales] = useState('5,200,000.00');
+  const [exemptSales, setExemptSales] = useState('0.00');
 
   // Helper function to format numbers with commas
   const formatNumberWithCommas = (value) => {
@@ -76,9 +76,9 @@ const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherInco
           <input 
             type="text" 
             placeholder="0.00"
-            value={otherIncomes}
+            value={otherIncomes === '0.00' ? '' : otherIncomes}
             onChange={(e) => handleOtherIncomesChange(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
+            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm placeholder:text-gray-400"
           />
         </div>
 
@@ -89,9 +89,9 @@ const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherInco
             <input 
               type="text" 
               placeholder="0.00"
-              value={salesReturns}
+              value={salesReturns === '0.00' ? '' : salesReturns}
               onChange={(e) => handleSalesReturnsChange(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
+              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm placeholder:text-gray-400"
             />
           </div>
           <div>
@@ -99,9 +99,9 @@ const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherInco
             <input 
               type="text" 
               placeholder="0.00"
-              value={exemptSales}
+              value={exemptSales === '0.00' ? '' : exemptSales}
               onChange={(e) => handleExemptSalesChange(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm"
+              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm placeholder:text-gray-400"
             />
           </div>
         </div>
@@ -112,9 +112,9 @@ const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherInco
           <input 
             type="text" 
             placeholder="0.00"
-            value={closingStock}
+            value={closingStock === '0.00' ? '' : closingStock}
             onChange={(e) => handleClosingStockChange(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm"
+            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm placeholder:text-red-400"
           />
         </div>
       </div>

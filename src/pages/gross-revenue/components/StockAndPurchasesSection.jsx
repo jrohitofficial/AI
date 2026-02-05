@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onPurchaseReturnsChange }) => {
-  const [openingStock, setOpeningStock] = useState('4,500,000.00');
+  const [openingStock, setOpeningStock] = useState('0.00');
   const [domesticPurchases, setDomesticPurchases] = useState('0.00');
   const [importPurchases, setImportPurchases] = useState('0.00');
-  const [exemptPurchases, setExemptPurchases] = useState('125,000.00');
+  const [exemptPurchases, setExemptPurchases] = useState('0.00');
   const [purchaseReturns, setPurchaseReturns] = useState('0.00');
 
   // Helper function to format numbers with commas
@@ -80,9 +80,9 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onP
             <input 
               type="text" 
               placeholder="0.00"
-              value={openingStock}
+              value={openingStock === '0.00' ? '' : openingStock}
               onChange={(e) => handleOpeningStockChange(e.target.value)}
-              className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold bg-gray-50 text-sm"
+              className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold bg-gray-50 text-sm placeholder:text-gray-400"
             />
           </div>
         </div>
@@ -94,9 +94,9 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onP
             <input 
               type="text" 
               placeholder="0.00"
-              value={domesticPurchases}
+              value={domesticPurchases === '0.00' ? '' : domesticPurchases}
               onChange={(e) => handleDomesticChange(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
+              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm placeholder:text-gray-400"
             />
           </div>
           <div>
@@ -104,9 +104,9 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onP
             <input 
               type="text" 
               placeholder="0.00"
-              value={importPurchases}
+              value={importPurchases === '0.00' ? '' : importPurchases}
               onChange={(e) => handleImportChange(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
+              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm placeholder:text-gray-400"
             />
           </div>
         </div>
@@ -117,9 +117,9 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onP
           <input 
             type="text" 
             placeholder="0.00"
-            value={exemptPurchases}
+            value={exemptPurchases === '0.00' ? '' : exemptPurchases}
             onChange={(e) => handleExemptChange(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
+            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm placeholder:text-gray-400"
           />
         </div>
 
@@ -129,9 +129,9 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onP
           <input 
             type="text" 
             placeholder="0.00"
-            value={purchaseReturns}
+            value={purchaseReturns === '0.00' ? '' : purchaseReturns}
             onChange={(e) => handlePurchaseReturnsChange(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm"
+            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm placeholder:text-red-400"
           />
         </div>
       </div>

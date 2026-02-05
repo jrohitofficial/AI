@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const DirectExpensesSection = ({ onChange }) => {
   const [expenses, setExpenses] = useState([
-    { id: 1, type: '', amount: '850,000.00' }
+    { id: 1, type: '', amount: '0.00' }
   ]);
 
   // Helper function to format numbers with commas
@@ -71,9 +71,9 @@ const DirectExpensesSection = ({ onChange }) => {
             <input 
               type="text" 
               placeholder="0.00"
-              value={expense.amount}
+              value={expense.amount === '0.00' ? '' : expense.amount}
               onChange={(e) => handleExpenseChange(expense.id, 'amount', e.target.value)}
-              className="w-32 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm"
+              className="w-32 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm placeholder:text-gray-400"
             />
             <button 
               onClick={() => handleDeleteExpense(expense.id)}
