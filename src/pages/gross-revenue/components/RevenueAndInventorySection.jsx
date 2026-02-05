@@ -1,6 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const RevenueAndInventorySection = () => {
+const RevenueAndInventorySection = ({ onChange, grossSales = '0.00', onOtherIncomesChange, onSalesReturnsChange, onExemptSalesChange }) => {
+  const [closingStock, setClosingStock] = useState('5,200,000.00');
+  const [otherIncomes, setOtherIncomes] = useState('0.00');
+  const [salesReturns, setSalesReturns] = useState('0.00');
+  const [exemptSales, setExemptSales] = useState('5,200,000.00');
+
+  // Helper function to format numbers with commas
+  const formatNumberWithCommas = (value) => {
+    if (!value) return '';
+    // Remove all non-numeric characters except decimal point
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    // Split by decimal
+    const parts = cleaned.split('.');
+    // Format the integer part with commas
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // Rejoin
+    return parts.join('.');
+  };
+
+  const handleClosingStockChange = (value) => {
+    // Remove parentheses and any non-numeric characters except commas and dots
+    const cleanValue = value.replace(/[()]/g, '');
+    const formatted = formatNumberWithCommas(cleanValue);
+    setClosingStock(formatted);
+    if (onChange) {
+      onChange(formatted);
+    }
+  };
+
+  const handleOtherIncomesChange = (value) => {
+    const formatted = formatNumberWithCommas(value);
+    setOtherIncomes(formatted);
+    if (onOtherIncomesChange) {
+      onOtherIncomesChange(formatted);
+    }
+  };
+
+  const handleSalesReturnsChange = (value) => {
+    const formatted = formatNumberWithCommas(value);
+    setSalesReturns(formatted);
+    if (onSalesReturnsChange) {
+      onSalesReturnsChange(formatted);
+    }
+  };
+
+  const handleExemptSalesChange = (value) => {
+    const formatted = formatNumberWithCommas(value);
+    setExemptSales(formatted);
+    if (onExemptSalesChange) {
+      onExemptSalesChange(formatted);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
       <h2 className="text-xs font-semibold text-teal-600 tracking-wider mb-3">REVENUE &amp; INVENTORY</h2>
@@ -12,8 +64,9 @@ const RevenueAndInventorySection = () => {
           <input 
             type="text" 
             placeholder="0.00"
-            defaultValue="12,450,000.00"
-            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm"
+            value={parseFloat(grossSales.replace(/,/g, '')).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            readOnly
+            className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm bg-gray-50"
           />
         </div>
 
@@ -23,6 +76,8 @@ const RevenueAndInventorySection = () => {
           <input 
             type="text" 
             placeholder="0.00"
+            value={otherIncomes}
+            onChange={(e) => handleOtherIncomesChange(e.target.value)}
             className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
           />
         </div>
@@ -34,6 +89,8 @@ const RevenueAndInventorySection = () => {
             <input 
               type="text" 
               placeholder="0.00"
+              value={salesReturns}
+              onChange={(e) => handleSalesReturnsChange(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 text-sm"
             />
           </div>
@@ -42,7 +99,8 @@ const RevenueAndInventorySection = () => {
             <input 
               type="text" 
               placeholder="0.00"
-              defaultValue="5,200,000.00"
+              value={exemptSales}
+              onChange={(e) => handleExemptSalesChange(e.target.value)}
               className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold text-sm"
             />
           </div>
@@ -54,7 +112,8 @@ const RevenueAndInventorySection = () => {
           <input 
             type="text" 
             placeholder="0.00"
-            defaultValue="(125,000.00)"
+            value={closingStock}
+            onChange={(e) => handleClosingStockChange(e.target.value)}
             className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm"
           />
         </div>

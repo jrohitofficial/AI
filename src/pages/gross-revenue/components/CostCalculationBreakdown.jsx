@@ -1,9 +1,58 @@
 import React from 'react';
 
-const CostCalculationBreakdown = ({ openingStock = '4,500,000.00', purchases = { domestic: '0.00', imports: '0.00', exempt: '125,000.00' } }) => {
+const CostCalculationBreakdown = ({
+  openingStock = '4,500,000.00',
+  purchases = { domestic: '0.00', imports: '0.00', exempt: '125,000.00' },
+  directExpenses = '8,175,000.00',
+  closingStock = '5,200,000.00',
+  purchaseReturns = '0.00',
+  grossSales = '0.00',
+  otherIncomes = '0.00',
+  exemptSales = '0.00',
+  salesReturns = '0.00',
+}) => {
   const vsLastYear = 2.4; // Can be positive or negative
   const isPositive = vsLastYear >= 0;
-  
+
+  // Helper functions to parse and format numbers
+  const parseNumber = (num) => {
+    if (typeof num === 'string') {
+      return parseFloat(num.replace(/,/g, ''));
+    }
+    return parseFloat(num);
+  };
+
+  const formatNumber = (num) =>
+    parseNumber(num).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+  // Calculate total purchases
+  const totalPurchases =
+    parseNumber(purchases.domestic) +
+    parseNumber(purchases.imports) +
+    parseNumber(purchases.exempt);
+
+  const totalCogs =
+    parseNumber(openingStock) +
+    totalPurchases +
+    parseNumber(directExpenses) -
+    parseNumber(closingStock);
+
+  // Calculate Gross Profit
+  const grossProfit = 
+    parseNumber(grossSales) +
+    parseNumber(otherIncomes) +
+    parseNumber(exemptSales) -
+    parseNumber(salesReturns) -
+    totalCogs;
+
+  // Calculate Gross Margin %
+  const grossMarginPercent = parseNumber(grossSales) > 0 
+    ? ((grossProfit / parseNumber(grossSales)) * 100).toFixed(2)
+    : 0;
+
   return (
     <div className="space-y-3">
       <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg shadow-md p-4 text-white relative overflow-hidden">
@@ -13,12 +62,12 @@ const CostCalculationBreakdown = ({ openingStock = '4,500,000.00', purchases = {
           </svg>
         </div>
         <h3 className="text-xs font-semibold tracking-wide">CURRENT GROSS PROFIT</h3>
-        <div className="text-2xl font-bold mt-2 tabular-nums">NPR 4,125,000</div>
+        <div className="text-2xl font-bold mt-2 tabular-nums">NPR {formatNumber(grossProfit)}</div>
         
         <div className="grid grid-cols-2 gap-3 pt-3 mt-3 border-t border-blue-500">
           <div>
             <p className="text-blue-100 text-[9px] font-semibold mb-0.5">GROSS MARGIN (%)</p>
-            <p className="text-lg font-bold">33.13%</p>
+            <p className="text-lg font-bold">{grossMarginPercent}%</p>
           </div>
           <div className="text-right">
             <p className="text-blue-100 text-[9px] font-semibold mb-0.5">VS LAST YEAR</p>
@@ -48,49 +97,47 @@ const CostCalculationBreakdown = ({ openingStock = '4,500,000.00', purchases = {
         <div className="p-3">
           <div className="space-y-0 divide-y divide-gray-100">
             <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-700 font-medium">Opening Stock (+)</span>
-              <span className="text-sm font-semibold text-gray-900 tabular-nums">
-                {parseFloat(openingStock.replace(/,/g, '')).toFixed(2)}
-              </span>
+              <span className="text-sm text-gray-700">Opening Stock (+)</span>
+              <span className="text-sm font-medium text-gray-900 tabular-nums">{formatNumber(openingStock)}</span>
             </div>
             
             <div className="py-2">
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="text-sm font-bold text-gray-800">Total Purchases (+)</span>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-semibold text-gray-800">Total Purchases (+)</span>
               </div>
-              <div className="bg-gray-50 rounded-md p-2 space-y-1.5">
+              <div className="space-y-1.5 ml-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-600 pl-2">• Domestic Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.domestic.replace(/,/g, '')).toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-600 pl-2">• Import Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.imports.replace(/,/g, '')).toFixed(2)}</span>
+                  <span className="text-sm text-gray-600">Domestic Purchases (+)</span>
+                  <span className="text-sm font-medium text-gray-700 tabular-nums">{formatNumber(purchases.domestic)}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-xs text-gray-600 pl-2">• EXEMPT Purchases</span>
-                  <span className="text-xs font-medium text-gray-700 tabular-nums">{parseFloat(purchases.exempt.replace(/,/g, '')).toFixed(2)}</span>
+                  <span className="text-sm text-gray-600">Import Purchases (+)</span>
+                  <span className="text-sm font-medium text-gray-700 tabular-nums">{formatNumber(purchases.imports)}</span>
                 </div>
-                <div className="flex justify-between items-center pt-1.5 mt-1.5 border-t border-gray-300">
-                  <span className="text-xs font-bold text-gray-800">Total Purchase (+)</span>
-                  <span className="text-xs font-bold text-gray-900 tabular-nums">850,000.00</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">EXEMPT Purchases (+)</span>
+                  <span className="text-sm font-medium text-gray-700 tabular-nums">{formatNumber(purchases.exempt)}</span>
                 </div>
+              </div>
+              <div className="flex justify-between items-center pt-2 mt-2 border-t border-gray-200">
+                <span className="text-sm font-semibold text-gray-800">Total Purchase(+)</span>
+                <span className="text-sm font-semibold text-gray-900 tabular-nums">{formatNumber(totalPurchases)}</span>
               </div>
             </div>
 
-            <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-700 font-medium">Less: Direct Expenses (-)</span>
-              <span className="text-sm font-semibold text-gray-900 tabular-nums">8,175,000.00</span>
+            <div className="flex justify-between items-center py-1.5 ml-4">
+              <span className="text-sm text-gray-700">Direct Expenses (+)</span>
+              <span className="text-sm font-semibold text-gray-900 tabular-nums">{formatNumber(directExpenses)}</span>
             </div>
             
-            <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-700 font-medium">Less: Closing Stock (-)</span>
-              <span className="text-sm font-semibold text-red-600 tabular-nums">(5,200,000.00)</span>
+            <div className="flex justify-between items-center py-1.5 ml-4">
+              <span className="text-sm text-gray-700">Less: Closing Stock (-)</span>
+              <span className="text-sm font-semibold text-red-600 tabular-nums">({formatNumber(closingStock)})</span>
             </div>
             
-            <div className="flex justify-between items-center py-2 bg-blue-50 -mx-3 px-3 mt-1">
+            <div className="flex justify-between items-center py-2.5 bg-blue-50 -mx-3 px-3 mt-1">
               <span className="text-sm font-bold text-blue-900">Total COGS</span>
-              <span className="text-base font-bold text-blue-700 tabular-nums">8,325,000.00</span>
+              <span className="text-lg font-bold text-blue-700 tabular-nums">{formatNumber(totalCogs)}</span>
             </div>
           </div>
         </div>

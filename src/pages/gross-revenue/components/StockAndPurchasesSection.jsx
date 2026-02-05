@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 
-const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange }) => {
+const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange, onPurchaseReturnsChange }) => {
   const [openingStock, setOpeningStock] = useState('4,500,000.00');
   const [domesticPurchases, setDomesticPurchases] = useState('0.00');
   const [importPurchases, setImportPurchases] = useState('0.00');
   const [exemptPurchases, setExemptPurchases] = useState('125,000.00');
+  const [purchaseReturns, setPurchaseReturns] = useState('0.00');
+
+  // Helper function to format numbers with commas
+  const formatNumberWithCommas = (value) => {
+    if (!value) return '';
+    // Remove all non-numeric characters except decimal point
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    // Split by decimal
+    const parts = cleaned.split('.');
+    // Format the integer part with commas
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // Rejoin
+    return parts.join('.');
+  };
 
   const handleOpeningStockChange = (value) => {
-    setOpeningStock(value);
+    const formatted = formatNumberWithCommas(value);
+    setOpeningStock(formatted);
     if (onOpeningStockChange) {
-      onOpeningStockChange(value);
+      onOpeningStockChange(formatted);
     }
   };
 
@@ -20,18 +35,29 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange }) =
   };
 
   const handleDomesticChange = (value) => {
-    setDomesticPurchases(value);
-    handlePurchasesChange(value, importPurchases, exemptPurchases);
+    const formatted = formatNumberWithCommas(value);
+    setDomesticPurchases(formatted);
+    handlePurchasesChange(formatted, importPurchases, exemptPurchases);
   };
 
   const handleImportChange = (value) => {
-    setImportPurchases(value);
-    handlePurchasesChange(domesticPurchases, value, exemptPurchases);
+    const formatted = formatNumberWithCommas(value);
+    setImportPurchases(formatted);
+    handlePurchasesChange(domesticPurchases, formatted, exemptPurchases);
   };
 
   const handleExemptChange = (value) => {
-    setExemptPurchases(value);
-    handlePurchasesChange(domesticPurchases, importPurchases, value);
+    const formatted = formatNumberWithCommas(value);
+    setExemptPurchases(formatted);
+    handlePurchasesChange(domesticPurchases, importPurchases, formatted);
+  };
+
+  const handlePurchaseReturnsChange = (value) => {
+    const formatted = formatNumberWithCommas(value);
+    setPurchaseReturns(formatted);
+    if (onPurchaseReturnsChange) {
+      onPurchaseReturnsChange(formatted);
+    }
   };
 
   return (
@@ -49,13 +75,14 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange }) =
         {/* Opening Stock */}
         <div className="border-b border-gray-100 pb-3">
           <label className="text-xs font-semibold text-gray-700">Opening Stock (as per Balance Sheet)</label>
-          <div className="mt-1.5">
+          <div className="mt-1.5 flex items-center gap-2">
+            <span className="text-sm font-semibold text-gray-700">NPR</span>
             <input 
               type="text" 
-              placeholder="NPR"
+              placeholder="0.00"
               value={openingStock}
               onChange={(e) => handleOpeningStockChange(e.target.value)}
-              className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold bg-gray-50 text-sm"
+              className="flex-1 px-3 py-1.5 border border-gray-200 rounded-lg text-gray-900 font-semibold bg-gray-50 text-sm"
             />
           </div>
         </div>
@@ -102,7 +129,8 @@ const StockAndPurchasesSection = ({ onOpeningStockChange, onPurchasesChange }) =
           <input 
             type="text" 
             placeholder="0.00"
-            defaultValue="(125,000.00)"
+            value={purchaseReturns}
+            onChange={(e) => handlePurchaseReturnsChange(e.target.value)}
             className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-red-600 font-semibold text-sm"
           />
         </div>

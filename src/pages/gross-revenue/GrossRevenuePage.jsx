@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import Sidepanel2 from '../../components/layout/Sidepanel2';
 import WorkspaceHeader from '../../components/ui/WorkspaceHeader';
 import ScrollIndicator from '../../components/ui/ScrollIndicator';
+import { monthlyVatReconciliationData } from '../../data/monthlyVatReconciliation';
 import {
   RevenueHeader,
   StockAndPurchasesSection,
@@ -28,6 +29,15 @@ const GrossRevenuePage = ({
     imports: '0.00', 
     exempt: '125,000.00' 
   });
+  const [directExpenses, setDirectExpenses] = useState('850,000.00');
+  const [closingStock, setClosingStock] = useState('5,200,000.00');
+  const [purchaseReturns, setPurchaseReturns] = useState('0.00');
+  const [otherIncomes, setOtherIncomes] = useState('0.00');
+  const [salesReturns, setSalesReturns] = useState('0.00');
+  const [exemptSales, setExemptSales] = useState('5,200,000.00');
+
+  // Calculate total taxable sales from VAT reconciliation data
+  const grossSales = monthlyVatReconciliationData.reduce((sum, row) => sum + row.taxableSales, 0);
 
   const clientData = selectedClient || { name: 'Everest Trading Co. Ltd', pan: 'PAN: 302456789' };
 
@@ -66,14 +76,31 @@ const GrossRevenuePage = ({
                   <StockAndPurchasesSection 
                     onOpeningStockChange={setOpeningStock}
                     onPurchasesChange={setPurchases}
+                    onPurchaseReturnsChange={setPurchaseReturns}
                   />
-                  <DirectExpensesSection />
-                  <RevenueAndInventorySection />
+                  <DirectExpensesSection onChange={setDirectExpenses} />
+                  <RevenueAndInventorySection 
+                    onChange={setClosingStock}
+                    grossSales={grossSales.toFixed(2)}
+                    onOtherIncomesChange={setOtherIncomes}
+                    onSalesReturnsChange={setSalesReturns}
+                    onExemptSalesChange={setExemptSales}
+                  />
                 </div>
 
                 {/* Right Column (1/3) */}
                 <div className="sticky top-6 self-start space-y-4">
-                  <CostCalculationBreakdown openingStock={openingStock} purchases={purchases} />
+                  <CostCalculationBreakdown 
+                    openingStock={openingStock} 
+                    purchases={purchases} 
+                    directExpenses={directExpenses}
+                    closingStock={closingStock}
+                    purchaseReturns={purchaseReturns}
+                    grossSales={grossSales.toFixed(2)}
+                    otherIncomes={otherIncomes}
+                    exemptSales={exemptSales}
+                    salesReturns={salesReturns}
+                  />
                   <ComplianceAlert />
                 </div>
               </div>

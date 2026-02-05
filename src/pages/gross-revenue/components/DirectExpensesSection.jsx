@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const DirectExpensesSection = () => {
+const DirectExpensesSection = ({ onChange }) => {
   const [expenses, setExpenses] = useState([
-    { id: 1, type: 'Wages & Salaries (Production)', amount: '850,000.00' }
+    { id: 1, type: '', amount: '850,000.00' }
   ]);
+
+  // Helper function to format numbers with commas
+  const formatNumberWithCommas = (value) => {
+    if (!value) return '';
+    // Remove all non-numeric characters except decimal point
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    // Split by decimal
+    const parts = cleaned.split('.');
+    // Format the integer part with commas
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // Rejoin
+    return parts.join('.');
+  };
 
   const handleAddExpense = () => {
     const newId = Math.max(...expenses.map(e => e.id), 0) + 1;
@@ -15,10 +28,24 @@ const DirectExpensesSection = () => {
   };
 
   const handleExpenseChange = (id, field, value) => {
+    if (field === 'amount') {
+      value = formatNumberWithCommas(value);
+    }
     setExpenses(expenses.map(expense => 
       expense.id === id ? { ...expense, [field]: value } : expense
     ));
   };
+
+  // Calculate total expenses and notify parent
+  useEffect(() => {
+    const total = expenses.reduce((sum, expense) => {
+      const amount = parseFloat(expense.amount.replace(/,/g, '') || 0);
+      return sum + amount;
+    }, 0);
+    if (onChange) {
+      onChange(total.toFixed(2));
+    }
+  }, [expenses, onChange]);
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
