@@ -142,7 +142,7 @@ const DashboardPage = ({ user, onLogout, onNavigateToEngagement, onNavigateToVAT
                     </div>
 
                     {/* Client Cards Grid */}
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-4 gap-6">
                         {filteredClients.map((client) => (
                             <ClientCard 
                                 key={client.id} 
