@@ -35,6 +35,7 @@ const GrossRevenuePage = ({
   const [otherIncomes, setOtherIncomes] = useState('0.00');
   const [salesReturns, setSalesReturns] = useState('0.00');
   const [exemptSales, setExemptSales] = useState('5,200,000.00');
+  const [grossMarginPercent, setGrossMarginPercent] = useState(0);
 
   // Calculate total taxable sales from VAT reconciliation data
   const grossSales = monthlyVatReconciliationData.reduce((sum, row) => sum + row.taxableSales, 0);
@@ -100,8 +101,9 @@ const GrossRevenuePage = ({
                     otherIncomes={otherIncomes}
                     exemptSales={exemptSales}
                     salesReturns={salesReturns}
+                    onGrossMarginChange={setGrossMarginPercent}
                   />
-                  <ComplianceAlert />
+                  <ComplianceAlert grossMarginPercent={grossMarginPercent} />
                 </div>
               </div>
             </div>

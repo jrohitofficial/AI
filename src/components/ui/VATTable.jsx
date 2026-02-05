@@ -60,7 +60,7 @@ const VATTable = ({ data = [] }) => {
             <table className="w-full border-collapse text-sm leading-none">
                 <thead>
                     <tr className="bg-white">
-                        <th rowSpan={2} className="px-4 py-1.5 text-left text-xs font-semibold text-white bg-blue-600 uppercase tracking-wide border-b border-r border-gray-300">
+                        <th rowSpan={2} className="px-4 py-1.5 text-left text-xs font-semibold text-blue-900 bg-blue-50 uppercase tracking-wide border-b border-r border-blue-200 shadow-sm">
                             Month (BS)
                         </th>
                         <th colSpan="2" className="px-4 py-1.5 text-center text-xs font-semibold text-gray-800 uppercase tracking-wide border-b border-r border-gray-300 bg-slate-200">
@@ -89,7 +89,7 @@ const VATTable = ({ data = [] }) => {
                                 key={index}
                                 className="border-b border-gray-200 hover:bg-blue-50/30"
                             >
-                                <td className="px-4 py-1 text-xs font-medium text-white bg-blue-600 border-r border-gray-200">{row.month}</td>
+                                <td className="px-4 py-1 text-xs font-semibold text-blue-900 bg-blue-50 border-r border-blue-200">{row.month}</td>
                                 <td className="px-4 py-1 text-xs text-gray-700 text-right border-r border-gray-200">
                                     <input
                                         type="number"

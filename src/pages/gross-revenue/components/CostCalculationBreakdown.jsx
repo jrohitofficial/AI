@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const CostCalculationBreakdown = ({
   openingStock = '4,500,000.00',
@@ -10,23 +10,29 @@ const CostCalculationBreakdown = ({
   otherIncomes = '0.00',
   exemptSales = '0.00',
   salesReturns = '0.00',
+  onGrossMarginChange,
 }) => {
   const vsLastYear = 2.4; // Can be positive or negative
   const isPositive = vsLastYear >= 0;
 
   // Helper functions to parse and format numbers
   const parseNumber = (num) => {
+    if (!num || num === '') return 0;
     if (typeof num === 'string') {
-      return parseFloat(num.replace(/,/g, ''));
+      const parsed = parseFloat(num.replace(/,/g, ''));
+      return isNaN(parsed) ? 0 : parsed;
     }
-    return parseFloat(num);
+    const parsed = parseFloat(num);
+    return isNaN(parsed) ? 0 : parsed;
   };
 
-  const formatNumber = (num) =>
-    parseNumber(num).toLocaleString('en-US', {
+  const formatNumber = (num) => {
+    const parsed = parseNumber(num);
+    return parsed.toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
+  };
 
   // Calculate total purchases
   const totalPurchases =
@@ -52,6 +58,13 @@ const CostCalculationBreakdown = ({
   const grossMarginPercent = parseNumber(grossSales) > 0 
     ? ((grossProfit / parseNumber(grossSales)) * 100).toFixed(2)
     : 0;
+
+  // Notify parent of gross margin changes
+  useEffect(() => {
+    if (onGrossMarginChange) {
+      onGrossMarginChange(grossMarginPercent);
+    }
+  }, [grossMarginPercent, onGrossMarginChange]);
 
   return (
     <div className="space-y-3">
